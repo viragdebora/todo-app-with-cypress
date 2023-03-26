@@ -22,3 +22,10 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Test environment variable
+cypress.env.json
+
+# Test output files
+cypress/screenshots
+mochawesome-report
