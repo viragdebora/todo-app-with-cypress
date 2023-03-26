@@ -1,0 +1,9 @@
+.todo-list-side-bar {
+    display: flex;
+    height: 100%;
+
+    .todo-list-content {
+        flex-grow: 1;
+        padding: 2rem;
+    }
+}

@@ -1,0 +1,13 @@
+.todo-list-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .title {
+        word-break: break-all;
+        display: -webkit-box;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        -webkit-box-orient: vertical;
+    }
+}
