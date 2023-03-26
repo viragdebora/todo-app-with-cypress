@@ -6,9 +6,10 @@ import './App.css';
 
 interface Props {
   children: any;
+  logout: VoidFunction;
 }
 
-function App({ children }: Props) {
+function App({ children, logout }: Props) {
   const { auth } = useStoreon<AppState, AppEvents>('auth');
 
   return (
@@ -18,7 +19,7 @@ function App({ children }: Props) {
         <Header username={auth.username}
           isAuthenticated={auth.isAuthenticated}
           login={() => {}}
-          logout={() => {}}
+          logout={logout}
         />
       }
       <div id="main-content">

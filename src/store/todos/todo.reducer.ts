@@ -149,17 +149,20 @@ export const getTodoReducer = (todoService: TodoServiceClient) => (store: Storeo
         }
     });
 
-    store.on(RemoveTodoListEndedEvent, ({ todos }, { listId, error }) => {
+    store.on(RemoveTodoListEndedEvent, (state, { listId, error }) => {
         if (error) {
-            return { todos };
+            return state;
         }
 
-        const newLists = todos.todoLists.filter(list => list.id !== listId);
+        const newLists = state.todos.todoLists.filter(list => list.id !== listId);
 
         return {
-            ...todos,
-            todoLists: newLists,
-            activeListId: todos.activeListId === listId ? '' : todos.activeListId
+            ...state,
+            todos: {
+                ...state.todos,
+                todoLists: newLists,
+                activeListId: state.todos.activeListId === listId ? '' : state.todos.activeListId
+            }
         };
     });
 }

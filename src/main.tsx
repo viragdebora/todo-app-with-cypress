@@ -12,8 +12,8 @@ import { createStoreon } from 'storeon';
 import { AppEvents } from './app.events';
 import { AppState } from './app.state';
 import { getAuthReducer } from './store/auth/auth.reducer';
-import { IsAuthenticatedEndedEvent, IsAuthenticatedEvent, LoginEndedEvent, LoginEvent } from './store/auth/auth.events';
-import { getTodoReducer } from './store/todos/todo.storeon-module';
+import { GetUserInfoEndedEvent, GetUserInfoEvent, IsAuthenticatedEndedEvent, IsAuthenticatedEvent, LoginEndedEvent, LoginEvent, LogoutEndedEvent, LogoutEvent } from './store/auth/auth.events';
+import { getTodoReducer } from './store/todos/todo.reducer';
 import { TodoPage } from './components/todos/todo-page/todo-page';
 import { ListIdClickedEvent, LoadTodosEvent, SetActiveListIdEvent } from './store/todos/todo.events';
 import { AuthServiceClient } from './store/auth/auth.service-client';
@@ -39,11 +39,20 @@ import { TodoServiceClient } from './store/todos/todo.service-client';
   store.dispatch(IsAuthenticatedEvent);
   await promise;
 
+  const getUserInfoPromise = new Promise<void>(resolve => {
+    const unsubscribe = store.on(GetUserInfoEndedEvent, () => {
+      unsubscribe();
+      resolve();
+    });
+  });
+  store.dispatch(GetUserInfoEvent);
+  await getUserInfoPromise;
+
   store.on(LoginEndedEvent, (_, { error }) => {
     if (!error) {
-      // const url = new URL(router.state.location.pathname);
-      // const redirectTo = decodeURIComponent(url.searchParams.get('redirectTo') || '') || '/';
-      router.navigate('/');
+      const searchParams = new URLSearchParams(router.state.location.search);
+      const redirectTo = decodeURIComponent(searchParams.get('redirectTo') || '/');
+      router.navigate(redirectTo);
     }
   });
 
@@ -53,9 +62,15 @@ import { TodoServiceClient } from './store/todos/todo.service-client';
     }
   });
 
+  store.on(LogoutEndedEvent, (_, { error }) => {
+    if (!error) {
+      router.navigate('/login');
+    }
+  });
+
   const router = createBrowserRouter([
     {
-      element: <App><Outlet /></App>,
+      element: <App logout={() => store.dispatch(LogoutEvent)}><Outlet /></App>,
       path: '/',
       loader: ({ request }) => {
         if (!store.get().auth.isAuthenticated) {
