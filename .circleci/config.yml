@@ -1,4 +1,6 @@
 version: 2.1
+orbs:
+  node: circleci/node@5.1
 jobs:
   install-node-example:
     docker:
@@ -22,4 +24,7 @@ jobs:
 workflows:
   run-tests:
     jobs:
-      - test
+      - install-node-example
+      - test:
+          requires:
+            - install-node-example
