@@ -11,15 +11,6 @@ describe('Regression test for the Login page', () => {
         cy.logout();
     });
 
-    it('should log in with the proper credentials ', () => {
-        cy.visit('');
-        cy.url().should('include', loginPage.url);
-        loginPage.getAllElementVisible();
-        loginPage.typeInCredentials();
-        loginPage.clickOnSubmitButton()
-        cy.url().should('not.include', loginPage.url);
-    });
-
     it('should not log in with the improper credentials ', () => {
         cy.visit('');
         cy.url().should('include', loginPage.url);
