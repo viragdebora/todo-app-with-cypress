@@ -2,10 +2,7 @@ version: 2.1
 jobs:
   test:
     docker:
-      - image: cypress/base:12.8.1
-        environment:
-          user: $user
-          password: $password
+      - image: cypress/base:12.1.0
     steps:
       - checkout
       - run:
@@ -13,12 +10,7 @@ jobs:
           command: npm install
       - run:
           name: Run tests
-          command: |
-            echo "{
-                \"user\": \"${user}\",
-                \"password\": \"${password}\"
-            }" > cypress.env.json
-            npm run test:component
+          command: npm run test:component
 workflows:
   run-tests:
     jobs:
