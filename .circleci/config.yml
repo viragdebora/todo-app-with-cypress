@@ -1,5 +1,13 @@
 version: 2.1
 jobs:
+  install-node-example:
+    docker:
+      - image: cimg/base:stable
+    steps:
+      - checkout
+      - node/install:
+          node-version: '18.13.0'
+      - run: node --version
   test:
     docker:
       - image: cypress/base:12.1.0
