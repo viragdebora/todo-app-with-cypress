@@ -1,0 +1,26 @@
+version: 2.1
+jobs:
+  test:
+    docker:
+      - image: cypress/base:12.8.1
+        environment:
+          user: $user
+          password: $password
+    steps:
+      - checkout
+      - run:
+          name: Install deps
+          command: npm install
+      - run:
+          name: Run tests
+          command: |
+            echo "{
+                \"user\": \"${user}\",
+                \"password\": \"${password}\"
+            }" > cypress.env.json
+            npm run test:component
+workflows:
+  run-tests:
+    jobs:
+      - test:
+          context: env-vars
