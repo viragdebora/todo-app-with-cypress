@@ -4,9 +4,9 @@ import { selectors as homeSelectors } from '../../support/po/home-page/selectors
 
 const homePage = new HomePage();
 
-describe('Health test for the Login page', () => {
+describe('Health test for the Home page', () => {
 
-    after(() => {
+    afterEach(() => {
         cy.logout();
     });
 
@@ -15,7 +15,6 @@ describe('Health test for the Login page', () => {
         cy.get(headerSeletors.headerContainer).should('be.visible');
         cy.get(homeSelectors.welcomeText).should('be.visible');
         cy.get(homeSelectors.welcomeText).should('have.text', `Welcome ${Cypress.env('user')}`);
-        cy.logout();
     });
 
     it('should display the proper elements after a page refresh', () => {

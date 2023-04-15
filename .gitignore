@@ -28,4 +28,5 @@ cypress.env.json
 
 # Test output files
 cypress/screenshots
+cypress/videos
 mochawesome-report
