@@ -14,5 +14,4 @@ jobs:
 workflows:
   run-tests:
     jobs:
-      - test:
-          context: env-vars
+      - test
