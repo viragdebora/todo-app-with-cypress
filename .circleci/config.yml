@@ -20,6 +20,7 @@ jobs:
           command: npm install
       - run:
           name: Run tests
+          no_output_timeout: 30m
           command: npm run test:component
 workflows:
   run-tests:
