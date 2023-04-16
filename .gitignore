@@ -27,6 +27,8 @@ dist-ssr
 cypress.env.json
 
 # Test output files
+cypress/reports
+cypress/results
 cypress/screenshots
 cypress/videos
 mochawesome-report
