@@ -1,5 +1,5 @@
 import LoginPage from '../../support/po/login-page/login';
-import TodoPage from "../../support/po/todo-page/todo-page";
+import TodoPage from '../../support/po/todo-page/todo-page';
 import HomePage from '../../support/po/home-page/home';
 import { selectors as headerSeletors } from '../../support/component/header';
 
@@ -8,7 +8,6 @@ const todoPage = new TodoPage();
 const homePage = new HomePage();
 
 describe('Regression test for the Login page', () => {
-
     afterEach(() => {
         cy.logout();
     });
@@ -26,10 +25,9 @@ describe('Regression test for the Login page', () => {
     it('should logout when clicking on the logout button', () => {
         cy.login(homePage);
         cy.get(headerSeletors.avatarButton).click();
-        cy.get(headerSeletors.logoutButton).should("be.visible");
+        cy.get(headerSeletors.logoutButton).should('be.visible');
         cy.get(headerSeletors.logoutButton).click();
         cy.url().should('include', loginPage.url);
         loginPage.getAllElementVisible();
     });
-
-})
+});

@@ -24,6 +24,6 @@ export class AuthServiceMock {
     }
 
     async getUserInfo(): Promise<string> {
-        return this.userInfo
+        return this.userInfo;
     }
 }

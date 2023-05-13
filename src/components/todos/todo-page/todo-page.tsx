@@ -1,19 +1,19 @@
 import { useStoreon } from 'storeon/react';
-import { FunctionComponent, useCallback, useMemo, useRef, useState } from 'react';
+import { type FunctionComponent, useCallback, useMemo, useRef, useState } from 'react';
 import { TodoListSideBar } from '../ui/todo-list-side-bar';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
 import { TodoMainContent } from '../ui/todo-main-content';
 import './todo.page.scss';
-import { AppState } from '../../../app.state';
-import { AppEvents } from '../../../app.events';
+import type { AppState } from '../../../app.state';
+import type { AppEvents } from '../../../app.events';
 import { CreateTodoListEvent, ListIdClickedEvent } from '../../../store/todos/todo.events';
 
 export const TodoPage: FunctionComponent = () => {
-    const { todos, dispatch } = useStoreon<AppState, AppEvents>("todos");
+    const { todos, dispatch } = useStoreon<AppState, AppEvents>('todos');
     const { activeListId, todoLists } = todos;
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [todoListTitle, setTodoListTitle] = useState('');
-    const dialogResolveRef = useRef<(value: string) => void | null>();
+    const dialogResolveRef = useRef<((value: string) => void) | null>();
 
     const activeIndex = useMemo(() => {
         return todoLists.findIndex(list => list.id === activeListId);

@@ -1,28 +1,28 @@
-import { TodoItem } from '../../../models/todo.model';
+import type { TodoItem } from '../../../models/todo.model';
 import { TodoList } from './todo-list';
 import { selectors } from '../../../../cypress/support/po/todo-page/selectors';
 
-describe("Component tests for the todo list", () => {
+describe('Component tests for the todo list', () => {
     let handleUpdateSpy;
 
-    const items: Array<TodoItem> = [
+    const items: TodoItem[] = [
         {
             id: 'mockTodoItemId1',
             state: 'NOT_STARTED',
-            title: 'Mock Todo Item 1'
+            title: 'Mock Todo Item 1',
         },
         {
             id: 'mockTodoItemId2',
             state: 'COMPLETED',
-            title: 'Mock Todo Item 2'
+            title: 'Mock Todo Item 2',
         },
         {
             id: 'mockTodoItemId3',
             state: 'NOT_STARTED',
-            title: 'Mock Todo Item 3'
-        }
+            title: 'Mock Todo Item 3',
+        },
     ];
-    
+
     beforeEach(() => {
         const handleRemoveStub = cy.stub();
         handleUpdateSpy = cy.spy().as('handle-update-spy');
@@ -30,7 +30,8 @@ describe("Component tests for the todo list", () => {
             handleRemove={handleRemoveStub}
             handleUpdate={handleUpdateSpy}
         />);
-    })
+    });
+
     it('all the element should be visible', () => {
         cy.get(selectors.todoItem).should('have.length', 3);
         cy.get(selectors.todoItemCheckbox).should('have.length', 3);
@@ -41,7 +42,7 @@ describe("Component tests for the todo list", () => {
         const expectedResult = {
             id: 'mockTodoItemId2',
             state: 'NOT_STARTED',
-            title: 'Mock Todo Item 2'
+            title: 'Mock Todo Item 2',
         };
         cy.get(selectors.todoItemCheckbox).eq(1).click();
         cy.get('@handle-update-spy').should('have.been.calledWith', expectedResult);

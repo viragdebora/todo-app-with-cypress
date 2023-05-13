@@ -5,7 +5,6 @@ import { selectors as homeSelectors } from '../../support/po/home-page/selectors
 const homePage = new HomePage();
 
 describe('Health test for the Home page', () => {
-
     afterEach(() => {
         cy.logout();
     });

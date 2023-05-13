@@ -1,4 +1,4 @@
-import { TodoItem, TodoList } from "../../models/todo.model";
+import type { TodoItem, TodoList } from '../../models/todo.model';
 
 export class TodoServiceClient {
     async loadTodos(): Promise<TodoList[]> {
@@ -11,8 +11,8 @@ export class TodoServiceClient {
             method: 'POST',
             body: JSON.stringify({ title }),
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
         });
 
         return response.json();
@@ -23,8 +23,8 @@ export class TodoServiceClient {
             method: 'POST',
             body: JSON.stringify({ listId, title }),
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
         });
 
         return response.json();
@@ -35,8 +35,8 @@ export class TodoServiceClient {
             method: 'DELETE',
             body: JSON.stringify({ listId, id }),
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
         });
 
         return response.text();
@@ -47,8 +47,8 @@ export class TodoServiceClient {
             method: 'PUT',
             body: JSON.stringify({ listId, item }),
             headers: {
-                'Content-Type': 'application/json'
-            }
+                'Content-Type': 'application/json',
+            },
         });
 
         return response.json();
@@ -60,8 +60,8 @@ export class TodoServiceClient {
             body: JSON.stringify({ listId }),
             headers: {
                 'Content-Type': 'application/json',
-                Accept: 'text/plain'
-            }
+                Accept: 'text/plain',
+            },
         });
 
         return response.text();

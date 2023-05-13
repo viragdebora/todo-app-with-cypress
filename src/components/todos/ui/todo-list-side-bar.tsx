@@ -11,12 +11,12 @@ import {
 } from '@mui/material';
 import './todo-list-side-bar.scss';
 import { Add } from '@mui/icons-material';
-import { TodoList } from '../../../models/todo.model';
+import type { TodoList } from '../../../models/todo.model';
 
 const drawerWidth = 240;
 
 interface TodoListSideBarProps {
-    items: Array<TodoList>;
+    items: TodoList[];
     activeIndex: number;
     onListItemClicked: (id: string) => void;
     onAddTodoListClicked: () => void;
@@ -53,9 +53,9 @@ export const TodoListSideBar: React.FunctionComponent<TodoListSideBarProps & Rea
                             onClick={() => onListItemClicked(item.id)} sx={{
                                 wordBreak: 'break-all',
                                 display: '-webkit-box',
-                                'lineClamp': '1',
+                                lineClamp: '1',
                                 overflow: 'hidden',
-                                'boxOrient': 'vertical',
+                                boxOrient: 'vertical',
                             }}>
                             <ListItemText primary={item.title} />
                         </ListItemButton>
@@ -75,4 +75,4 @@ export const TodoListSideBar: React.FunctionComponent<TodoListSideBarProps & Rea
             {children}
         </div>
     </div >;
-}
+};

@@ -1,12 +1,11 @@
-import TodoPage from "../../support/po/todo-page/todo-page";
-import { selectors as todoSelectors } from "../../support/po/todo-page/selectors";
+import TodoPage from '../../support/po/todo-page/todo-page';
+import { selectors as todoSelectors } from '../../support/po/todo-page/selectors';
 import domElements from '../../fixtures/dom-elements.json';
 import data from '../../fixtures/test-data.json';
-import { beforeEach, afterEach } from "mocha";
+import { beforeEach, afterEach } from 'mocha';
 const todoPage = new TodoPage();
 
 describe('Regression tests for the Todo-List', () => {
-
     beforeEach(() => {
         cy.login(todoPage);
         cy.newTodoList(data.todoListTitleFirst);
@@ -18,7 +17,7 @@ describe('Regression tests for the Todo-List', () => {
     afterEach(() => {
         cy.removeAllTodoList();
         cy.logout();
-    })
+    });
 
     data.todoListTitles.forEach(title => {
         it(`should be able to add new todo list with title - ${title}`, () => {

@@ -1,14 +1,14 @@
-import TodoPage from "../../support/po/todo-page/todo-page";
-import { selectors as todoSelectors } from "../../support/po/todo-page/selectors";
+import TodoPage from '../../support/po/todo-page/todo-page';
+import { selectors as todoSelectors } from '../../support/po/todo-page/selectors';
 import domElements from '../../fixtures/dom-elements.json';
 import data from '../../fixtures/test-data.json';
-import { afterEach, beforeEach } from "mocha";
+import { afterEach, beforeEach } from 'mocha';
 const todoPage = new TodoPage();
 
 describe('Regression tests for the Todo-List items', () => {
     beforeEach(() => {
         cy.login(todoPage);
-        cy.newTodoList("Test Todo List");
+        cy.newTodoList('Test Todo List');
         cy.get(todoSelectors.todoListItems).should('have.length', '1');
         todoPage.selectATodoListFromList(1);
         todoPage.getTodoListElementVisible();
@@ -54,7 +54,7 @@ describe('Regression tests for the Todo-List items', () => {
         cy.get(todoSelectors.todoItemDeleteButton).eq(1).click();
         cy.get(todoSelectors.todoItemTitle).eq(1).should('not.contain.text', data.todoListItemSecond);
         cy.get(todoSelectors.todoItem).should('have.length', '2');
-        cy.addTodoToTodoList(1, "Second Todo item");
+        cy.addTodoToTodoList(1, 'Second Todo item');
         cy.get(todoSelectors.todoItem).should('have.length', '3');
     });
 

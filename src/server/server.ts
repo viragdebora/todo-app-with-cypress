@@ -9,42 +9,40 @@ import { getAuthRouter } from './routers/auth.router';
 import { AuthServiceMock } from '../store/auth/auth.service';
 import bodyParser from 'body-parser';
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url))
+const dirname = path.dirname(fileURLToPath(import.meta.url));
 
-async function createServer() {
-    const app = express()
+async function createServer(): Promise<void> {
+    const app = express();
 
     const vite = await createViteServer({
         server: { middlewareMode: true },
         appType: 'custom',
-    })
+    });
 
     app.use(vite.middlewares);
-    
     app.use(bodyParser.json());
-    
     app.use('/api/todos', getTodosRouter(new TodoServiceMock()));
     app.use('/api/auth', getAuthRouter(new AuthServiceMock()));
 
     app.use('*', async (req, res) => {
-        const url = req.originalUrl
+        const url = req.originalUrl;
 
         try {
-            let template = fs.readFileSync(path.resolve(__dirname, '../../index.html'), 'utf-8');
+            let template = fs.readFileSync(path.resolve(dirname, '../../index.html'), 'utf-8');
 
             template = await vite.transformIndexHtml(url, template);
 
             // 6. Send the rendered HTML back.
             res.status(200).set({ 'Content-Type': 'text/html' }).end(template);
         } catch (e: any) {
+            vite.ssrFixStacktrace(e);
             console.log(e);
-            console.log(vite.ssrFixStacktrace(e));
         }
-    })
+    });
 
     app.listen(5173, () => {
         console.log('listening');
-    })
+    });
 }
 
-createServer()
+createServer();

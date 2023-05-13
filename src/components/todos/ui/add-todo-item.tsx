@@ -1,4 +1,4 @@
-import { FunctionComponent, useState, useCallback } from 'react';
+import { type FunctionComponent, useState, useCallback } from 'react';
 import { TextField, Button } from '@mui/material';
 import './add-todo-item.scss';
 
@@ -7,7 +7,7 @@ interface AddTodoItemProps {
 }
 
 export const AddTodoItem: FunctionComponent<AddTodoItemProps> = ({
-    handleAddTodo
+    handleAddTodo,
 }) => {
     const [title, setTitle] = useState('');
 
@@ -28,7 +28,7 @@ export const AddTodoItem: FunctionComponent<AddTodoItemProps> = ({
             size="small"
             autoComplete="off"
             sx={{
-                flexGrow: '1'
+                flexGrow: '1',
             }}
             onKeyUp={e => {
                 if (e.key === 'Enter') {
@@ -42,7 +42,7 @@ export const AddTodoItem: FunctionComponent<AddTodoItemProps> = ({
             size="large"
             onClick={submitTodo}
             sx={{
-                marginLeft: '1rem'
+                marginLeft: '1rem',
             }}>Add</Button>
-    </div>
+    </div>;
 };

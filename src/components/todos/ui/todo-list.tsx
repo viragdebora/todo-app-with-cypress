@@ -1,10 +1,10 @@
-import { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
 import { List } from '@mui/material';
 import { TodoListItem } from './todo-list-item';
-import { TodoItem } from '../../../models/todo.model';
+import type { TodoItem } from '../../../models/todo.model';
 
 interface TodoListProps {
-    items: Array<TodoItem>;
+    items: TodoItem[];
     handleUpdate: (item: TodoItem) => void;
     handleRemove: (id: string) => void;
 }
@@ -23,5 +23,5 @@ export const TodoList: FunctionComponent<TodoListProps> = ({
                 handleUpdate={handleUpdate}
                 handleRemove={handleRemove} />)}
         </List>
-    </div>
+    </div>;
 };
