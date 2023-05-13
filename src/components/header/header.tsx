@@ -26,7 +26,7 @@ export function Header({
     isAuthenticated,
     login,
     logout,
-}: HeaderProps) {
+}: HeaderProps): JSX.Element {
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
     const handleOpenUserMenu = React.useCallback((event: React.MouseEvent<HTMLElement>) => {
@@ -42,7 +42,7 @@ export function Header({
             <AppBar data-testid="header-container" position="static">
                 <Toolbar>
                     <Box sx={{
-                        flexGrow: 1
+                        flexGrow: 1,
                     }}>
                         <Button data-testid="home-page-header-button" color="inherit">
                             <Link to="/">

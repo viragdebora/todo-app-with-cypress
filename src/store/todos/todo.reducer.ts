@@ -1,12 +1,12 @@
-import { StoreonStore } from 'storeon';
-import { AppEvents } from '../../app.events';
-import { AppState } from '../../app.state';
-import { AddTodoItemEndedEvent, AddTodoItemEvent, CreateTodoListEndedEvent, CreateTodoListEvent, ListIdClickedEvent, LoadTodosEndedEvent, LoadTodosEvent, RemoveTodoItemEndedEvent, RemoveTodoItemEvent, RemoveTodoListEndedEvent, RemoveTodoListEvent, SetActiveListIdEvent, TodoEvents, UpdateTodoItemEndedEvent, UpdateTodoItemEvent } from './todo.events';
-import { TodoServiceClient } from './todo.service-client';
+import type { StoreonStore } from 'storeon';
+import type { AppEvents } from '../../app.events';
+import type { AppState } from '../../app.state';
+import { AddTodoItemEndedEvent, AddTodoItemEvent, CreateTodoListEndedEvent, CreateTodoListEvent, ListIdClickedEvent, LoadTodosEndedEvent, LoadTodosEvent, RemoveTodoItemEndedEvent, RemoveTodoItemEvent, RemoveTodoListEndedEvent, RemoveTodoListEvent, SetActiveListIdEvent, UpdateTodoItemEndedEvent, UpdateTodoItemEvent } from './todo.events';
+import type { TodoServiceClient } from './todo.service-client';
 import { DEFAULT_TODO_STATE } from './todo.state';
 
 export const getTodoReducer = (todoService: TodoServiceClient) => (store: StoreonStore<AppState, AppEvents>) => {
-    store.on('@init', (state) => ({ ...state, todos: DEFAULT_TODO_STATE }))
+    store.on('@init', (state) => ({ ...state, todos: DEFAULT_TODO_STATE }));
 
     store.on(LoadTodosEvent, async () => {
         try {
@@ -21,8 +21,8 @@ export const getTodoReducer = (todoService: TodoServiceClient) => (store: Storeo
         ...state,
         todos: {
             ...state.todos,
-            todoLists
-        }
+            todoLists,
+        },
     }));
 
     store.on(AddTodoItemEvent, async (_, { title, listId }) => {
@@ -45,8 +45,8 @@ export const getTodoReducer = (todoService: TodoServiceClient) => (store: Storeo
                     ...list,
                     items: [
                         item,
-                        ...list.items
-                    ]
+                        ...list.items,
+                    ],
                 };
             }
 
@@ -74,8 +74,8 @@ export const getTodoReducer = (todoService: TodoServiceClient) => (store: Storeo
             if (list.id === listId) {
                 return {
                     ...list,
-                    items: list.items.filter(item => item.id !== todoId)
-                }
+                    items: list.items.filter(item => item.id !== todoId),
+                };
             }
 
             return list;
@@ -89,7 +89,7 @@ export const getTodoReducer = (todoService: TodoServiceClient) => (store: Storeo
             const todoList = await todoService.createTodoList(title);
             store.dispatch(CreateTodoListEndedEvent, todoList);
         } catch (error) {
-            store.dispatch(CreateTodoListEndedEvent, null)
+            store.dispatch(CreateTodoListEndedEvent, null);
         }
     });
 
@@ -129,7 +129,7 @@ export const getTodoReducer = (todoService: TodoServiceClient) => (store: Storeo
             if (list.id === listId) {
                 return {
                     ...list,
-                    items: list.items.map(i => i.id === todoItem?.id ? todoItem : i)
+                    items: list.items.map(i => i.id === todoItem?.id ? todoItem : i),
                 };
             }
 
@@ -161,8 +161,8 @@ export const getTodoReducer = (todoService: TodoServiceClient) => (store: Storeo
             todos: {
                 ...state.todos,
                 todoLists: newLists,
-                activeListId: state.todos.activeListId === listId ? '' : state.todos.activeListId
-            }
+                activeListId: state.todos.activeListId === listId ? '' : state.todos.activeListId,
+            },
         };
     });
-}
+};

@@ -1,10 +1,9 @@
-import { StoreonStore } from 'storeon';
-import { DEFAULT_AUTH_STATE, AuthState } from './auth.state';
-// import { AuthService } from '../../services/auth/auth-service.contract';
+import type { StoreonStore } from 'storeon';
+import { DEFAULT_AUTH_STATE } from './auth.state';
 import { IsAuthenticatedEndedEvent, IsAuthenticatedEvent, LoginEndedEvent, LoginEvent, LogoutEndedEvent, LogoutEvent, GetUserInfoEvent, GetUserInfoEndedEvent } from './auth.events';
-import { AppState } from '../../app.state';
-import { AppEvents } from '../../app.events';
-import { AuthServiceClient } from './auth.service-client';
+import type { AppState } from '../../app.state';
+import type { AppEvents } from '../../app.events';
+import type { AuthServiceClient } from './auth.service-client';
 
 export const getAuthReducer = (authService: AuthServiceClient) => (store: StoreonStore<AppState, AppEvents>) => {
     store.on('@init', (state) => ({ ...state, auth: DEFAULT_AUTH_STATE }));
@@ -24,8 +23,8 @@ export const getAuthReducer = (authService: AuthServiceClient) => (store: Storeo
             ...state.auth,
             username,
             isAuthenticated,
-            error
-        }
+            error,
+        },
     }));
 
     store.on(LogoutEvent, async () => {
@@ -46,8 +45,9 @@ export const getAuthReducer = (authService: AuthServiceClient) => (store: Storeo
             ...state,
             auth: {
                 ...state.auth,
-                username: '', isAuthenticated: false
-            }
+                username: '',
+                isAuthenticated: false,
+            },
         };
     });
 
@@ -65,8 +65,8 @@ export const getAuthReducer = (authService: AuthServiceClient) => (store: Storeo
             ...state,
             auth: {
                 ...state.auth,
-                isAuthenticated: authenticated
-            }
+                isAuthenticated: authenticated,
+            },
         };
     });
 
@@ -84,8 +84,8 @@ export const getAuthReducer = (authService: AuthServiceClient) => (store: Storeo
         return {
             auth: {
                 ...auth,
-                username
-            }
+                username,
+            },
         };
     });
-}
+};

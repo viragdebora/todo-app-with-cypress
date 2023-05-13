@@ -1,18 +1,17 @@
-import { MouseEvent } from 'react';
-import { Delete, MoreVert } from "@mui/icons-material";
-import { IconButton, Menu, MenuItem } from "@mui/material";
-import { FunctionComponent, useCallback, useMemo, useState } from "react";
-import { useStoreon } from "storeon/react";
-import { AddTodoItem } from "./add-todo-item";
-import { TodoList } from "./todo-list";
+import { Delete, MoreVert } from '@mui/icons-material';
+import { IconButton, Menu, MenuItem } from '@mui/material';
+import { type FunctionComponent, useCallback, useMemo, useState, type MouseEvent } from 'react';
+import { useStoreon } from 'storeon/react';
+import { AddTodoItem } from './add-todo-item';
+import { TodoList } from './todo-list';
 import './todo-main-content.scss';
-import { AppState } from '../../../app.state';
-import { AppEvents } from '../../../app.events';
+import type { AppState } from '../../../app.state';
+import type { AppEvents } from '../../../app.events';
 import { AddTodoItemEvent, RemoveTodoItemEvent, RemoveTodoListEvent, UpdateTodoItemEvent } from '../../../store/todos/todo.events';
-import { TodoItem } from '../../../models/todo.model';
+import type { TodoItem } from '../../../models/todo.model';
 
 export const TodoMainContent: FunctionComponent = () => {
-    const { todos, dispatch } = useStoreon<AppState, AppEvents>("todos");
+    const { todos, dispatch } = useStoreon<AppState, AppEvents>('todos');
     const { activeListId, todoLists } = todos;
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = useMemo(() => Boolean(menuAnchorEl), [menuAnchorEl]);
@@ -26,11 +25,11 @@ export const TodoMainContent: FunctionComponent = () => {
     }, []);
 
     const activeTodoList = useMemo(() => {
-        return todoLists.find(list => list.id === activeListId)
+        return todoLists.find(list => list.id === activeListId);
     }, [todoLists, activeListId]);
 
     const activeTodoItems = useMemo(() => {
-        return todoLists.find(list => list.id === activeListId)?.items || [];
+        return todoLists.find(list => list.id === activeListId)?.items ?? [];
     }, [todoLists, activeListId]);
 
     const handleAddTodoItem = useCallback((title: string) => {
@@ -98,5 +97,5 @@ export const TodoMainContent: FunctionComponent = () => {
                 </>
                 : <div data-testid="no-items">Nothing to show</div>
         }
-    </>
+    </>;
 };

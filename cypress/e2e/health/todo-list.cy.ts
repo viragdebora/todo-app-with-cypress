@@ -1,11 +1,10 @@
-import { after } from "mocha";
-import TodoPage from "../../support/po/todo-page/todo-page";
+import { after } from 'mocha';
+import TodoPage from '../../support/po/todo-page/todo-page';
 import data from '../../fixtures/test-data.json';
 
 const todoPage = new TodoPage();
 
 describe('Health tests for the Todo-List', () => {
-
     after(() => {
         cy.removeAllTodoList();
         cy.logout();

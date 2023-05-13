@@ -7,10 +7,10 @@ export const IsAuthenticatedEndedEvent = Symbol('IsAuthenticatedEnded');
 export const GetUserInfoEvent = Symbol('GetUserInfo');
 export const GetUserInfoEndedEvent = Symbol('GetUserInfoEnded');
 
-type LoginPayload = { username: string; password: string };
-export type LoginEndedPayload = { username: string; isAuthenticated: boolean; error?: unknown };
+type LoginPayload = { username: string; password: string; };
+export type LoginEndedPayload = { username: string; isAuthenticated: boolean; error?: unknown; };
 type LogoutPayload = never;
-export type LogoutEndedPayload = { error?: unknown };
+export type LogoutEndedPayload = { error?: unknown; };
 
 export interface AuthEvents {
     [LoginEvent]: LoginPayload;

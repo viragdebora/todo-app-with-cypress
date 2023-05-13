@@ -1,7 +1,7 @@
-import { TodoList } from "../../models/todo.model";
+import type { TodoList } from '../../models/todo.model';
 
 export interface TodoState {
-    todoLists: Array<TodoList>;
+    todoLists: TodoList[];
     activeListId: string;
 }
 

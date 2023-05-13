@@ -1,12 +1,11 @@
-import { Router } from "express";
-import { AuthServiceMock } from "../../store/auth/auth.service";
+import { Router } from 'express';
+import type { AuthServiceMock } from '../../store/auth/auth.service';
 
 export function getAuthRouter(authService: AuthServiceMock): Router {
     const authRouter = Router();
 
     authRouter.post('/login', async (req, res) => {
         try {
-
             const userinfo = await authService.login(req.body.username, req.body.password);
             res.send(userinfo);
         } catch (err) {

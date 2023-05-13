@@ -1,12 +1,10 @@
 import HomePage from '../../support/po/home-page/home';
 import LoginPage from '../../support/po/login-page/login';
-import { selectors as headerSeletors } from '../../support/component/header';
 
 const homePage = new HomePage();
 const loginPage = new LoginPage();
 
 describe('Health test for the Login page', () => {
-
     after(() => {
         cy.logout();
     });
@@ -16,7 +14,7 @@ describe('Health test for the Login page', () => {
         cy.url().should('include', loginPage.url);
         loginPage.getAllElementVisible();
         loginPage.typeInCredentials();
-        loginPage.clickOnSubmitButton()
+        loginPage.clickOnSubmitButton();
         cy.url().should('not.include', loginPage.url);
         homePage.getAllElementVisible();
     });

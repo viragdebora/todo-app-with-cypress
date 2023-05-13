@@ -9,5 +9,5 @@ export interface TodoItem {
 export interface TodoList {
     id: string;
     title: string;
-    items: Array<TodoItem>;
+    items: TodoItem[];
 }

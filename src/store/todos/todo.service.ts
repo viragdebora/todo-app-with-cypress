@@ -1,5 +1,5 @@
 import { v4 } from 'uuid';
-import { TodoItem, TodoList } from '../../models/todo.model';
+import type { TodoItem, TodoList } from '../../models/todo.model';
 
 export class TodoServiceMock {
     private todos: TodoList[] = [];
@@ -13,7 +13,7 @@ export class TodoServiceMock {
         const todoList: TodoList = {
             id: v4(),
             title,
-            items: []
+            items: [],
         };
 
         this.todos = [...todoLists, todoList];
@@ -26,14 +26,14 @@ export class TodoServiceMock {
         const item: TodoItem = {
             id: v4(),
             state: 'NOT_STARTED',
-            title
+            title,
         };
         const newItems = items.map(listItem => {
             if (listItem.id === listId) {
                 return {
                     ...listItem,
-                    items: [item, ...listItem.items]
-                }
+                    items: [item, ...listItem.items],
+                };
             }
             return listItem;
         });
@@ -47,7 +47,7 @@ export class TodoServiceMock {
             if (listItem.id === listId) {
                 return {
                     ...listItem,
-                    items: listItem.items.filter(i => i.id !== id)
+                    items: listItem.items.filter(i => i.id !== id),
                 };
             }
 
@@ -63,7 +63,7 @@ export class TodoServiceMock {
             if (listItem.id === listId) {
                 return {
                     ...listItem,
-                    items: listItem.items.map(i => i.id === item.id ? item : i)
+                    items: listItem.items.map(i => i.id === item.id ? item : i),
                 };
             }
 

@@ -1,23 +1,23 @@
 import { TodoListSideBar } from './todo-list-side-bar';
-import { TodoList } from '../../../models/todo.model';
+import type { TodoList } from '../../../models/todo.model';
 import { selectors } from '../../../../cypress/support/po/todo-page/selectors';
 import domElements from '../../../../cypress/fixtures/dom-elements.json';
 
-describe.only("Component tests for the Todo List Sidebar", () => {
+describe('Component tests for the Todo List Sidebar', () => {
     let onListItemClickedSpy;
 
-    const items: Array<TodoList> = [
+    const items: TodoList[] = [
         {
             id: 'mockId1',
             items: [
                 {
                     id: 'mockTodoItemId1',
                     state: 'NOT_STARTED',
-                    title: 'Mock Todo Item 1'
-                }
+                    title: 'Mock Todo Item 1',
+                },
             ],
-            title: 'Mock Todo List 1'
-        }
+            title: 'Mock Todo List 1',
+        },
     ];
 
     beforeEach(() => {

@@ -1,22 +1,21 @@
-/// <reference types="cypress" />
 import LoginPage from './po/login-page/login';
-import { Page } from './po/base-page';
+import { type Page } from './po/base-page';
 import { selectors as todoSelectors } from './po/todo-page/selectors';
 import { selectors as dialogBoxSeletors } from './component/todo-dialog-box';
-import { getTodoListType } from './models';
+import { type getTodoListType } from './models';
 
 const loginPage = new LoginPage();
 
 declare global {
-  namespace Cypress {
-    interface Chainable {
-      login(page: Page): Chainable<void>
-      logout(): Chainable<void>
-      newTodoList(todoListTitle: string): Chainable<void>
-      addTodoToTodoList(todoNumber: number, todoItem: string): Chainable<void>
-      removeAllTodoList(): Chainable<void>
+    namespace Cypress {
+        interface Chainable {
+            login: (page: Page) => Chainable<void>;
+            logout: () => Chainable<void>;
+            newTodoList: (todoListTitle: string) => Chainable<void>;
+            addTodoToTodoList: (todoNumber: number, todoItem: string) => Chainable<void>;
+            removeAllTodoList: () => Chainable<void>;
+        }
     }
-  }
 }
 
 Cypress.Commands.add('login', (page) => {
@@ -67,7 +66,7 @@ Cypress.Commands.add('removeAllTodoList', () => {
                 return responseObject.id;
             });
             for (let i = 0; i < idArray.length; i++) {
-                cy.request('DELETE', '/api/todos', {listId: idArray[i]});
+                cy.request('DELETE', '/api/todos', { listId: idArray[i] });
             }
         }
     });

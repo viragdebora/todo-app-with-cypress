@@ -1,11 +1,10 @@
-import TodoPage from "../../support/po/todo-page/todo-page";
+import TodoPage from '../../support/po/todo-page/todo-page';
 import NotFound from '../../support/po/error-page/error-page';
 
 const todoPage = new TodoPage();
 const notFoundPage = new NotFound();
 
 describe('Regression test for the Login page', () => {
-
     afterEach(() => {
         cy.logout();
     });
@@ -16,5 +15,4 @@ describe('Regression test for the Login page', () => {
         cy.url().should('include', notFoundPage.url);
         notFoundPage.getAllElementVisible();
     });
-
-})
+});

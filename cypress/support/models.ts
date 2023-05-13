@@ -1,11 +1,11 @@
 export type getTodoListType = {
-    id: string,
-    title: string,
-    items: getTodoType[]
+    id: string;
+    title: string;
+    items: getTodoType[];
 };
 
 type getTodoType = {
-    id: string,
-    state: string,
-    title: string
+    id: string;
+    state: string;
+    title: string;
 };

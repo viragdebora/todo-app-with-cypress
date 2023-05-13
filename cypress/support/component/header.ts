@@ -3,5 +3,5 @@ export const selectors = {
     homePageButton: "button[data-testid='home-page-header-button']",
     todosPageButton: "button[data-testid='todos-page-header-button']",
     avatarButton: "button[data-testid='avatar-button']",
-    logoutButton: "li[data-testid='header-logout-button']"
-}
+    logoutButton: "li[data-testid='header-logout-button']",
+};

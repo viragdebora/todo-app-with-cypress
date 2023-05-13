@@ -1,8 +1,8 @@
-import { TodoItem } from '../../../models/todo.model';
+import type { TodoItem } from '../../../models/todo.model';
 import { TodoListItem } from './todo-list-item';
 import { selectors } from '../../../../cypress/support/po/todo-page/selectors';
 
-describe("Component tests for the todo list item component", () => {
+describe('Component tests for the todo list item component', () => {
     let handleRemoveSpy;
     let handleUpdateSpy;
 
@@ -10,7 +10,7 @@ describe("Component tests for the todo list item component", () => {
     {
         id: 'mockTodoItemId1',
         state: 'NOT_STARTED',
-        title: 'Mock Todo Item 1'
+        title: 'Mock Todo Item 1',
     };
 
     beforeEach(() => {
@@ -39,7 +39,7 @@ describe("Component tests for the todo list item component", () => {
         const expectedResult = {
             id: 'mockTodoItemId1',
             state: 'COMPLETED',
-            title: 'Mock Todo Item 1'
+            title: 'Mock Todo Item 1',
         };
         cy.get(selectors.todoItemCheckbox).click();
         cy.get('@handle-update-spy').should('have.been.calledWith', expectedResult);

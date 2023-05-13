@@ -1,12 +1,11 @@
 import LoginPage from '../../support/po/login-page/login';
 import TodoPage from '../../support/po/todo-page/todo-page';
-import data from '../../fixtures/improper-user-credentail.json'
+import data from '../../fixtures/improper-user-credentail.json';
 
 const loginPage = new LoginPage();
 const todoPage = new TodoPage();
 
 describe('Regression test for the Login page', () => {
-
     afterEach(() => {
         cy.logout();
     });
@@ -29,4 +28,4 @@ describe('Regression test for the Login page', () => {
         cy.url().should('include', todoPage.url);
         todoPage.getAllElementVisible();
     });
-})
+});

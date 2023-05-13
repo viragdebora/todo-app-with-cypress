@@ -12,10 +12,10 @@ import {
 import { LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useStoreon } from 'storeon/react';
-import { AppState } from '../../app.state';
-import { AppEvents } from '../../app.events';
+import type { AppState } from '../../app.state';
+import type { AppEvents } from '../../app.events';
 
-function Copyright(props: any) {
+function Copyright(props: any): JSX.Element {
     return (
         <Typography variant="body2" color="text.secondary" align="center" {...props}>
             {'Copyright © '}
@@ -35,14 +35,14 @@ interface LoginProps {
 }
 
 export function Login({
-    login
-}: LoginProps) {
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    login,
+}: LoginProps): JSX.Element {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
         const username = data.get('username');
         const password = data.get('password');
-        login(username?.toString() || '', password?.toString() || '');
+        login(username?.toString() ?? '', password?.toString() ?? '');
     };
 
     const { auth } = useStoreon<AppState, AppEvents>('auth');

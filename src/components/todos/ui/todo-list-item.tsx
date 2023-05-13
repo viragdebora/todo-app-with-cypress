@@ -1,7 +1,7 @@
-import { FunctionComponent, useMemo } from 'react';
+import { type FunctionComponent, useMemo } from 'react';
 import { ListItemButton, ListItemText, ListItemIcon, Checkbox } from '@mui/material';
 import { Delete } from '@mui/icons-material';
-import { TodoItem } from '../../../models/todo.model';
+import type { TodoItem } from '../../../models/todo.model';
 
 interface TodoListItemProps {
     item: TodoItem;
@@ -23,10 +23,10 @@ export const TodoListItem: FunctionComponent<TodoListItemProps> = ({
             <Checkbox data-testid="todo-item-checkbox" checked={isCompleted}
                 onChange={() => handleUpdate({
                     ...item,
-                    state: isCompleted ? 'NOT_STARTED' : 'COMPLETED'
+                    state: isCompleted ? 'NOT_STARTED' : 'COMPLETED',
                 })} />
             <ListItemText data-testid="todo-item-title" primary={item.title} sx={{
-                textDecoration: isCompleted ? 'line-through' : 'none'
+                textDecoration: isCompleted ? 'line-through' : 'none',
             }} />
             <ListItemIcon>
                 <button data-testid="delete-button"
@@ -35,5 +35,5 @@ export const TodoListItem: FunctionComponent<TodoListItemProps> = ({
                 </button>
             </ListItemIcon>
         </ListItemButton>
-    </div>
+    </div>;
 };

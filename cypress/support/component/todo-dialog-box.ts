@@ -4,5 +4,5 @@ export const selectors = {
     todoDialogBoxText: "p[data-testid='todo-dialog-box-text']",
     todoDialogBoxInputField: "div[data-testid='todo-dialog-box-title-field']",
     todoDialogBoxCreateButton: "button[data-testid='todo-dialog-box-create-button']",
-    todoDialogBoxCCancelButton: "button[data-testid='todo-dialog-box-cancel-button']"
+    todoDialogBoxCCancelButton: "button[data-testid='todo-dialog-box-cancel-button']",
 };
