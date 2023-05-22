@@ -1,8 +1,8 @@
 import { TodoPage } from './todo-page';
-import { TodoPageContext, TodoPageContextType } from './todo-page-context';
+import { TodoPageContext, type TodoPageContextType } from './todo-page-context';
 import { TodoListModel } from './todo-list-model';
-import { TodoListService } from './todo-list-service';
-import { FunctionComponent } from 'react';
+import { type TodoListService } from './todo-list-service';
+import { type FunctionComponent } from 'react';
 
 export interface TodoPageRoutingContext {
     todoPageModule?: Promise<TodoPageModule>;

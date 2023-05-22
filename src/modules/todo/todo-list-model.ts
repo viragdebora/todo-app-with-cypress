@@ -1,13 +1,13 @@
-import { createObservable, Observable } from '../../common/observable';
-import { TodoItem, TodoList } from '../../models/todo.model';
-import { TodoListService } from './todo-list-service';
+import { createObservable, type Observable } from '../../common/observable';
+import type { TodoItem, TodoList } from '../../models/todo.model';
+import type { TodoListService } from './todo-list-service';
 
 export class TodoListModel {
     public todoLists: Observable<TodoList[]> = createObservable<TodoList[]>([]);
     public activeListId: Observable<string> = createObservable<string>('');
 
-    constructor (
-        private todoService: TodoListService,
+    constructor(
+        private readonly todoService: TodoListService,
     ) {}
 
     public async getAll(): Promise<TodoList[]> {

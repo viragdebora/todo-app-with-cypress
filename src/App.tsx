@@ -1,7 +1,7 @@
 import { Header } from './components/header/header';
-import type { AppState } from './app.state';
-import type { AppEvents } from './app.events';
-import { useStoreon } from 'storeon/react';
+import { useContext } from 'react';
+import { AuthContext } from './modules/auth/auth-context';
+import { useObservable } from './hooks/useObservable';
 import './App.css';
 
 interface Props {
@@ -10,14 +10,16 @@ interface Props {
 }
 
 function App({ children, logout }: Props): JSX.Element {
-    const { auth } = useStoreon<AppState, AppEvents>('auth');
+    const { authModel } = useContext(AuthContext);
+    const username = useObservable(authModel.username);
+    const isAuthenticated = useObservable(authModel.isAuthenticated);
 
     return (
         <div className="App">
             {
-                auth.isAuthenticated &&
-                <Header username={auth.username}
-                    isAuthenticated={auth.isAuthenticated}
+                isAuthenticated &&
+                <Header username={username}
+                    isAuthenticated={isAuthenticated}
                     login={() => { }}
                     logout={logout}
                 />
