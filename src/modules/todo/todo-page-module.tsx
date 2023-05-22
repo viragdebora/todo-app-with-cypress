@@ -16,7 +16,7 @@ export interface TodoPageModule {
 
 export const initTodoPageModule = (context: TodoPageRoutingContext): TodoPageModule => {
     const todoListModel = new TodoListModel(context.todoService);
-    // window.todoListModel = todoListModel;
+    window.appActions.todoModel = todoListModel;
     const todoPageContext: TodoPageContextType = {
         todoListModel,
     };

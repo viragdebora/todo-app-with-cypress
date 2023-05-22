@@ -14,6 +14,7 @@ import { AuthContext } from './modules/auth/auth-context';
 import './index.css';
 
 (async () => {
+    window.appActions = {};
     const authService = new AuthServiceClient();
 
     const { authModel } = initAuthModule({ authService });
