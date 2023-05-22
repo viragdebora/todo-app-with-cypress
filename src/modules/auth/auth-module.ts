@@ -11,7 +11,7 @@ export interface AuthModule {
 
 export const initAuthModule = (deps: AuthModuleDeps): AuthModule => {
     const authModel = new AuthModel(deps.authService);
-    // window.authModel = authModel;
+    window.appActions.authModel = authModel;
 
     return {
         authModel,
