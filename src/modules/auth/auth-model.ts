@@ -13,10 +13,18 @@ export class AuthModel {
     constructor(private readonly authService: AuthService) {}
 
     public async login(username: string, password: string): Promise<string> {
-        const uname = await this.authService.login(username, password);
-        this.username.value = uname;
-        this.isAuthenticated.value = true;
-        this.onLogin.emit({ error: null });
+        try {
+            const uname = await this.authService.login(username, password);
+            this.username.value = uname;
+            this.error.value = null;
+            this.isAuthenticated.value = true;
+
+            this.onLogin.emit({ error: null });
+        } catch (error) {
+            this.error.value = error;
+            this.onLogin.emit({ error });
+        }
+
         return this.username.value;
     }
 
