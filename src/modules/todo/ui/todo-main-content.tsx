@@ -1,20 +1,19 @@
 import { Delete, MoreVert } from '@mui/icons-material';
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { type FunctionComponent, useCallback, useMemo, useState, type MouseEvent } from 'react';
-import { useStoreon } from 'storeon/react';
 import { AddTodoItem } from './add-todo-item';
 import { TodoList } from './todo-list';
 import './todo-main-content.scss';
-import type { AppState } from '../../../app.state';
-import type { AppEvents } from '../../../app.events';
-import { AddTodoItemEvent, RemoveTodoItemEvent, RemoveTodoListEvent, UpdateTodoItemEvent } from '../../../store/todos/todo.events';
 import type { TodoItem } from '../../../models/todo.model';
+import { useTodoPageContext } from '../todo-page-context';
+import { useObservable } from '../../../hooks/useObservable';
 
 export const TodoMainContent: FunctionComponent = () => {
-    const { todos, dispatch } = useStoreon<AppState, AppEvents>('todos');
-    const { activeListId, todoLists } = todos;
     const [menuAnchorEl, setMenuAnchorEl] = useState<null | HTMLElement>(null);
     const isMenuOpen = useMemo(() => Boolean(menuAnchorEl), [menuAnchorEl]);
+    const { todoListModel } = useTodoPageContext();
+    const todoLists = useObservable(todoListModel.todoLists);
+    const activeListId = useObservable(todoListModel.activeListId);
 
     const handleMenuClick = useCallback((event: MouseEvent<HTMLElement>) => {
         setMenuAnchorEl(event.currentTarget);
@@ -33,20 +32,20 @@ export const TodoMainContent: FunctionComponent = () => {
     }, [todoLists, activeListId]);
 
     const handleAddTodoItem = useCallback((title: string) => {
-        dispatch(AddTodoItemEvent, { title, listId: activeListId });
-    }, [dispatch, activeListId]);
+        todoListModel.addTodoItem(activeListId, title);
+    }, [activeListId, todoListModel.addTodoItem]);
 
     const handleUpdateTodoItem = useCallback((todoItem: TodoItem) => {
-        dispatch(UpdateTodoItemEvent, { listId: activeListId, todoItem });
-    }, [dispatch, activeListId]);
+        todoListModel.updateTodoItem(activeListId, todoItem);
+    }, [activeListId, todoListModel.updateTodoItem]);
 
     const handleRemoveTodoItem = useCallback((id: string) => {
-        dispatch(RemoveTodoItemEvent, { todoId: id, listId: activeListId });
-    }, [dispatch, activeListId]);
+        todoListModel.removeTodoItem(activeListId, id);
+    }, [activeListId, todoListModel.removeTodoItem]);
 
     const handleRemoveTodoList = useCallback(() => {
-        dispatch(RemoveTodoListEvent, { listId: activeListId });
-    }, [dispatch, activeListId]);
+        todoListModel.removeTodoList(activeListId);
+    }, [activeListId, todoListModel.removeTodoList]);
 
     return <>
         {

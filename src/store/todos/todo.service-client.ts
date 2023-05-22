@@ -1,6 +1,7 @@
 import type { TodoItem, TodoList } from '../../models/todo.model';
+import { TodoListService } from '../../modules/todo/todo-list-service';
 
-export class TodoServiceClient {
+export class TodoServiceClient implements TodoListService {
     async loadTodos(): Promise<TodoList[]> {
         const response = await fetch('/api/todos');
         return response.json();

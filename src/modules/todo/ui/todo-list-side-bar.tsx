@@ -47,6 +47,14 @@ export const TodoListSideBar: React.FunctionComponent<TodoListSideBarProps & Rea
             <Toolbar />
             <Divider />
             <List>
+                <ListItem>
+                    <Button variant="contained"
+                        data-testid="add-list-button"
+                        endIcon={<Add />}
+                        onClick={onAddTodoListClicked}>
+                        Add list
+                    </Button>
+                </ListItem>
                 {items.map((item, index) => (
                     <ListItem key={item.id} disablePadding>
                         <ListItemButton data-testid="todo-list" selected={activeIndex === index}
@@ -61,14 +69,6 @@ export const TodoListSideBar: React.FunctionComponent<TodoListSideBarProps & Rea
                         </ListItemButton>
                     </ListItem>
                 ))}
-                <ListItem>
-                    <Button variant="contained"
-                        data-testid="add-list-button"
-                        endIcon={<Add />}
-                        onClick={onAddTodoListClicked}>
-                        Add list
-                    </Button>
-                </ListItem>
             </List>
         </Drawer>
         <div className="todo-list-content">
