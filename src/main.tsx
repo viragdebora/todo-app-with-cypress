@@ -14,10 +14,10 @@ import type { AppState } from './app.state';
 import { getAuthReducer } from './store/auth/auth.reducer';
 import { GetUserInfoEndedEvent, GetUserInfoEvent, IsAuthenticatedEndedEvent, IsAuthenticatedEvent, LoginEndedEvent, LoginEvent, LogoutEndedEvent, LogoutEvent } from './store/auth/auth.events';
 import { getTodoReducer } from './store/todos/todo.reducer';
-import { TodoPage } from './components/todos/todo-page/todo-page';
-import { ListIdClickedEvent, LoadTodosEvent, SetActiveListIdEvent } from './store/todos/todo.events';
 import { AuthServiceClient } from './store/auth/auth.service-client';
 import { TodoServiceClient } from './store/todos/todo.service-client';
+import { TodoPageRoutingContext } from './modules/todo/todo-page-module';
+import { loadTodoPage } from './modules/todo/lazy-load-todo-page';
 
 (async () => {
     const authService = new AuthServiceClient();
@@ -56,17 +56,15 @@ import { TodoServiceClient } from './store/todos/todo.service-client';
         }
     });
 
-    store.on(ListIdClickedEvent, (state, id) => {
-        if (store.get().todos.activeListId !== id) {
-            router.navigate(`/todos?${id ? `id=${id}` : ''}`);
-        }
-    });
-
     store.on(LogoutEndedEvent, (_, { error }) => {
         if (!error) {
             router.navigate('/login');
         }
     });
+
+    const todoPageContext: TodoPageRoutingContext = {
+        todoService: new TodoServiceClient(),
+    };
 
     const router = createBrowserRouter([
         {
@@ -87,17 +85,32 @@ import { TodoServiceClient } from './store/todos/todo.service-client';
                 },
                 {
                     path: 'todos',
-                    element: <TodoPage />,
+                    lazy: async () => {
+                        const { todoListModel } = await loadTodoPage(todoPageContext);
+                        todoListModel.activeListId.onChange((activeId) => {
+                            if (router.state.initialized) {
+                                router.navigate(`/todos?${activeId ? `id=${activeId}` : ''}`);
+                            }
+                        });
+                        const { LazyComponent } = await import('./components/lazy-component/lazy-component');
+                        return { Component: LazyComponent };
+                    },
                     loader: async ({ request }) => {
                         if (!store.get().auth.isAuthenticated) {
                             return {};
                         }
+                        const { Component, todoListModel } = await loadTodoPage(todoPageContext);
+
                         const id = new URL(request.url).searchParams.get('id') ?? '';
-                        if (store.get().todos.activeListId !== id) {
-                            store.dispatch(SetActiveListIdEvent, id);
+                        if (id && todoListModel.activeListId.value !== id) {
+                            todoListModel.activeListId.value = id;
                         }
-                        store.dispatch(LoadTodosEvent);
-                        return {};
+
+                        todoListModel.getAll();
+
+                        return {
+                            Component,
+                        };
                     },
                 },
                 {

@@ -1,27 +1,26 @@
-import { useStoreon } from 'storeon/react';
 import { type FunctionComponent, useCallback, useMemo, useRef, useState } from 'react';
-import { TodoListSideBar } from '../ui/todo-list-side-bar';
+import { TodoListSideBar } from './ui/todo-list-side-bar';
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField } from '@mui/material';
-import { TodoMainContent } from '../ui/todo-main-content';
+import { TodoMainContent } from './ui/todo-main-content';
+import { useTodoPageContext } from './todo-page-context';
+import { useObservable } from '../../hooks/useObservable';
 import './todo.page.scss';
-import type { AppState } from '../../../app.state';
-import type { AppEvents } from '../../../app.events';
-import { CreateTodoListEvent, ListIdClickedEvent } from '../../../store/todos/todo.events';
 
 export const TodoPage: FunctionComponent = () => {
-    const { todos, dispatch } = useStoreon<AppState, AppEvents>('todos');
-    const { activeListId, todoLists } = todos;
     const [createDialogOpen, setCreateDialogOpen] = useState(false);
     const [todoListTitle, setTodoListTitle] = useState('');
     const dialogResolveRef = useRef<((value: string) => void) | null>();
+    const { todoListModel } = useTodoPageContext();
+    const todoLists = useObservable(todoListModel.todoLists);
+    const activeListId = useObservable(todoListModel.activeListId);
 
     const activeIndex = useMemo(() => {
         return todoLists.findIndex(list => list.id === activeListId);
     }, [todoLists, activeListId]);
 
     const handleListItemClicked = useCallback((id: string) => {
-        dispatch(ListIdClickedEvent, id);
-    }, [dispatch]);
+        todoListModel.activeListId.value = id;
+    }, [todoListModel]);
 
     const onAddTodoListClicked = useCallback(() => {
         setCreateDialogOpen(true);
@@ -29,13 +28,13 @@ export const TodoPage: FunctionComponent = () => {
             dialogResolveRef.current = resolve;
         }).then((title) => {
             if (title) {
-                dispatch(CreateTodoListEvent, title);
+                todoListModel.createTodoList(title);
             }
         }).finally(() => {
             setCreateDialogOpen(false);
             setTodoListTitle('');
         });
-    }, [todoListTitle, dialogResolveRef]);
+    }, [todoListTitle, dialogResolveRef, todoListModel.createTodoList]);
 
     const handleTodoListDialogAction = useCallback((create: boolean) => {
         if (create && !todoListTitle.trim()) {
