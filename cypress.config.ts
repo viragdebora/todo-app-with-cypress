@@ -1,10 +1,10 @@
-import { defineConfig } from "cypress";
+import { defineConfig } from 'cypress';
 import { devServer as cypressViteDevServer } from '@cypress/vite-dev-server';
 import { merge } from 'mochawesome-merge';
 import marge from 'mochawesome-report-generator';
-import { existsSync } from "fs";
-import { rm } from "fs/promises";
-import { join } from "path";
+import { existsSync } from 'fs';
+import { rm } from 'fs/promises';
+import { join } from 'path';
 
 export default defineConfig({
     reporter: 'mochawesome',
@@ -20,26 +20,32 @@ export default defineConfig({
             on('before:run', async () => {
                 if (existsSync('./cypress/results')) {
                     await rm('./cypress/results', { recursive: true });
-                    console.log('deleted results')
+                    console.log('deleted results');
                 }
             });
             on('after:run', async () => {
                 const report = await merge({
                     files: [
                         join(process.cwd(), './cypress/results/*.json'),
-                    ]
+                    ],
                 });
                 console.log('merge finished');
                 marge.create(report);
             });
+            on('task', {
+                log(message) {
+                    console.log(message);
+                    return null;
+                },
+            });
         },
         baseUrl: 'http://localhost:5173',
         excludeSpecPattern: './cypress/e2e/exclude/*',
-        video: false
+        video: false,
     },
     component: {
-        devServer: (config) => {
+        devServer: async (config) => {
             return cypressViteDevServer(config);
-        }
+        },
     },
 });

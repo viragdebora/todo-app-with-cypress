@@ -1,5 +1,5 @@
 import { NotFound } from './not-found';
-import { selectors } from '../../../cypress/support/po/error-page/selectors';
+import { selectors } from '../../../cypress/support/selectors/error-page-selectors';
 import { BrowserRouter } from 'react-router-dom';
 
 describe('Component tests for the Not Found component', () => {

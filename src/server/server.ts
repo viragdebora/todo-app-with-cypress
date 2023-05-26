@@ -4,7 +4,7 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import { getTodosRouter } from './routers/todos-router';
-import { TodoServiceMock } from '../store/todos/todo.service-mock';
+import { TodoServiceMock } from '../services/todo/todo.service-mock';
 import { getAuthRouter } from './routers/auth.router';
 import { AuthServiceMock } from '../services/auth/auth.service-mock';
 import bodyParser from 'body-parser';

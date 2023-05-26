@@ -1,27 +1,29 @@
-import HomePage from '../../support/po/home-page/home';
-import { selectors as headerSeletors } from '../../support/component/header';
-import { selectors as homeSelectors } from '../../support/po/home-page/selectors';
-
-const homePage = new HomePage();
+import pageUrls from '../../fixtures/page-urls.json';
+import { headerSelectors } from '../../support/selectors/header';
+import { homePageSelectors } from '../../support/selectors/home-page-selectors';
+import { waitForPageLoad } from '../../support/helpers/page-load-helper';
 
 describe('Health test for the Home page', () => {
+    beforeEach(() => {
+        cy.visit(pageUrls.homePage);
+        cy.login();
+    });
+
     afterEach(() => {
         cy.logout();
     });
 
     it('should display the proper elements before and after login', () => {
-        cy.login(homePage);
-        cy.get(headerSeletors.headerContainer).should('be.visible');
-        cy.get(homeSelectors.welcomeText).should('be.visible');
-        cy.get(homeSelectors.welcomeText).should('have.text', `Welcome ${Cypress.env('user')}`);
+        cy.get(headerSelectors.headerContainer).should('be.visible');
+        cy.get(homePageSelectors.welcomeText).should('be.visible');
+        cy.get(homePageSelectors.welcomeText).should('have.text', `Welcome ${Cypress.env('user')}`);
     });
 
     it('should display the proper elements after a page refresh', () => {
-        cy.login(homePage);
-        homePage.getAllElementVisible();
-        cy.get(homeSelectors.welcomeText).should('have.text', `Welcome ${Cypress.env('user')}`);
+        waitForPageLoad('home');
+        cy.get(homePageSelectors.welcomeText).should('have.text', `Welcome ${Cypress.env('user')}`);
         cy.reload(true);
-        homePage.getAllElementVisible();
-        cy.get(homeSelectors.welcomeText).should('have.text', `Welcome ${Cypress.env('user')}`);
+        waitForPageLoad('home');
+        cy.get(homePageSelectors.welcomeText).should('have.text', `Welcome ${Cypress.env('user')}`);
     });
 });

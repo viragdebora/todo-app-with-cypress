@@ -1,6 +1,6 @@
 import type { TodoItem } from '../../../models/todo.model';
 import { TodoListItem } from './todo-list-item';
-import { selectors } from '../../../../cypress/support/po/todo-page/selectors';
+import { selectors } from '../../../../cypress/support/selectors/todo-page-selectors';
 
 describe('Component tests for the todo list item component', () => {
     let handleRemoveSpy;

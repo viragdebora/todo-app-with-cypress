@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import { Header } from './header';
-import { selectors } from '../../../cypress/support/component/header';
+import { selectors } from '../../../cypress/support/selectors/header';
 
 describe('Component tests for the Header component', () => {
     let logoutSpy;

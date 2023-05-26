@@ -1,7 +1,7 @@
 import { createStoreon } from 'storeon';
 import { StoreContext } from 'storeon/react';
 import { Login } from './login';
-import { selectors } from '../../../cypress/support/po/login-page/selectors';
+import { selectors } from '../../../cypress/support/selectors/login-page-selectors';
 
 describe('Component tests for the Login component', () => {
     let loginSpy;

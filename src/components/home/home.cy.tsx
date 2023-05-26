@@ -1,7 +1,7 @@
 import { createStoreon } from 'storeon';
 import { StoreContext } from 'storeon/react';
 import { Home } from './home';
-import { selectors } from '../../../cypress/support/po/home-page/selectors';
+import { selectors } from '../../../cypress/support/selectors/home-page-selectors';
 
 describe('Component tests for the Home component', () => {
     beforeEach(() => {

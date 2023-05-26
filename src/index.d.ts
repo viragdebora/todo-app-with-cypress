@@ -7,5 +7,6 @@ type AppActions = {
 };
 
 declare global {
+    // eslint-disable-next-line no-var
     var appActions: AppActions;
 }
