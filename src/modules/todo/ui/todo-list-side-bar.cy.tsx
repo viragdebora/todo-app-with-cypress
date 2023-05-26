@@ -1,6 +1,6 @@
 import { TodoListSideBar } from './todo-list-side-bar';
 import type { TodoList } from '../../../models/todo.model';
-import { selectors } from '../../../../cypress/support/po/todo-page/selectors';
+import { selectors } from '../../../../cypress/support/selectors/todo-page-selectors';
 import domElements from '../../../../cypress/fixtures/dom-elements.json';
 
 describe('Component tests for the Todo List Sidebar', () => {

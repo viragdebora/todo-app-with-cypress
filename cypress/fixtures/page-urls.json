@@ -1,0 +1,6 @@
+{
+    "loginPage": "/login",
+    "homePage": "/",
+    "todoPage": "/todos",
+    "errorPage": "/not-found"
+}

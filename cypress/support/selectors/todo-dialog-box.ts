@@ -1,4 +1,4 @@
-export const selectors = {
+export const todoDialogBoxSelectors = {
     todoDialogBoxContainer: "div[data-testid='todo-dialog-box-container'] > div > div",
     todoDialogBoxTitle: "h2[data-testid='todo-dialog-box-title']",
     todoDialogBoxText: "p[data-testid='todo-dialog-box-text']",

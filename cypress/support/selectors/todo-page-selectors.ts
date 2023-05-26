@@ -1,4 +1,4 @@
-export const selectors = {
+export const todoPageSelectors = {
     // todo-content
     noItemsVisible: "div[data-testid='no-items']",
 

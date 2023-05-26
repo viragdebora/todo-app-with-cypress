@@ -1,8 +1,6 @@
-import HomePage from '../../support/po/home-page/home';
-import LoginPage from '../../support/po/login-page/login';
-
-const homePage = new HomePage();
-const loginPage = new LoginPage();
+import pageUrls from '../../fixtures/page-urls.json';
+import { typeInCredentials, clickOnSubmitButton } from '../../support/helpers/login-helper';
+import { waitForPageLoad } from '../../support/helpers/page-load-helper';
 
 describe('Health test for the Login page', () => {
     after(() => {
@@ -10,12 +8,12 @@ describe('Health test for the Login page', () => {
     });
 
     it('should display the proper elements before and after login', () => {
-        cy.visit(loginPage.url);
-        cy.url().should('include', loginPage.url);
-        loginPage.getAllElementVisible();
-        loginPage.typeInCredentials();
-        loginPage.clickOnSubmitButton();
-        cy.url().should('not.include', loginPage.url);
-        homePage.getAllElementVisible();
+        cy.visit(pageUrls.loginPage);
+        cy.url().should('include', pageUrls.loginPage);
+        waitForPageLoad('login');
+        typeInCredentials();
+        clickOnSubmitButton();
+        cy.url().should('not.include', pageUrls.loginPage);
+        waitForPageLoad('home');
     });
 });

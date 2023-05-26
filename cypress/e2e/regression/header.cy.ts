@@ -1,33 +1,29 @@
-import LoginPage from '../../support/po/login-page/login';
-import TodoPage from '../../support/po/todo-page/todo-page';
-import HomePage from '../../support/po/home-page/home';
-import { selectors as headerSeletors } from '../../support/component/header';
-
-const loginPage = new LoginPage();
-const todoPage = new TodoPage();
-const homePage = new HomePage();
+import { headerSelectors } from '../../support/selectors/header';
+import pageUrls from '../../fixtures/page-urls.json';
+import { waitForPageLoad } from '../../support/helpers/page-load-helper';
 
 describe('Regression test for the Login page', () => {
-    afterEach(() => {
-        cy.logout();
+    beforeEach(() => {
+        cy.visit(pageUrls.homePage);
+        cy.login();
     });
 
     it('should open the corresponding page when clicking on the header elements', () => {
-        cy.login(homePage);
-        cy.get(headerSeletors.todosPageButton).click();
-        cy.url().should('include', todoPage.url);
-        todoPage.getAllElementVisible();
-        cy.get(headerSeletors.homePageButton).click();
-        cy.url().should('include', homePage.url);
-        homePage.getAllElementVisible();
+        cy.get(headerSelectors.todosPageButton).click();
+        cy.url().should('include', pageUrls.todoPage);
+        waitForPageLoad('basicTodo');
+        cy.get(headerSelectors.homePageButton).click();
+        cy.url().should('include', pageUrls.homePage);
+        waitForPageLoad('home');
+        cy.logout();
     });
 
     it('should logout when clicking on the logout button', () => {
-        cy.login(homePage);
-        cy.get(headerSeletors.avatarButton).click();
-        cy.get(headerSeletors.logoutButton).should('be.visible');
-        cy.get(headerSeletors.logoutButton).click();
-        cy.url().should('include', loginPage.url);
-        loginPage.getAllElementVisible();
+        waitForPageLoad('home');
+        cy.get(headerSelectors.avatarButton).click();
+        cy.get(headerSelectors.logoutButton).should('be.visible');
+        cy.get(headerSelectors.logoutButton).click();
+        cy.url().should('include', pageUrls.loginPage);
+        waitForPageLoad('login');
     });
 });

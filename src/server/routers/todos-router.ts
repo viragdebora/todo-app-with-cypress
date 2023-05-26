@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import type { TodoServiceMock } from '../../store/todos/todo.service-mock.js';
+import type { TodoServiceMock } from '../../services/todo/todo.service-mock.js';
 
 export function getTodosRouter(todoService: TodoServiceMock): Router {
     const todosRouter = Router();

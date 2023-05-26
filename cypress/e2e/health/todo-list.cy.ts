@@ -1,8 +1,7 @@
-import { after } from 'mocha';
-import TodoPage from '../../support/po/todo-page/todo-page';
+import { addNewTodoList, selectATodoListFromList } from '../../support/helpers/todo-helper';
+import pageUrls from '../../fixtures/page-urls.json';
 import data from '../../fixtures/test-data.json';
-
-const todoPage = new TodoPage();
+import { waitForPageLoad } from '../../support/helpers/page-load-helper';
 
 describe('Health tests for the Todo-List', () => {
     after(() => {
@@ -11,9 +10,10 @@ describe('Health tests for the Todo-List', () => {
     });
 
     it('should display the proper elements on the todo page', () => {
-        cy.login(todoPage);
-        cy.newTodoList(data.todoListTitle);
-        todoPage.selectATodoListFromList(1);
-        todoPage.getTodoListElementVisible();
+        cy.visit(pageUrls.todoPage);
+        cy.login();
+        addNewTodoList(data.todoListTitle);
+        selectATodoListFromList(0);
+        waitForPageLoad('todos');
     });
 });

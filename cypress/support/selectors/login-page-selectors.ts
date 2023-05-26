@@ -1,4 +1,4 @@
-export const selectors = {
+export const loginSelectors = {
     userNameField: '#username',
     userNameLabel: '#username-label',
     passwordField: '#password',

@@ -1,5 +1,5 @@
 import { AddTodoItem } from './add-todo-item';
-import { selectors } from '../../../../cypress/support/po/todo-page/selectors';
+import { selectors } from '../../../../cypress/support/selectors/todo-page-selectors';
 
 describe('Component tests for the add todo item component', () => {
     let spyOnButton;

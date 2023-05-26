@@ -1,6 +1,6 @@
 import type { TodoItem } from '../../../models/todo.model';
 import { TodoList } from './todo-list';
-import { selectors } from '../../../../cypress/support/po/todo-page/selectors';
+import { selectors } from '../../../../cypress/support/selectors/todo-page-selectors';
 
 describe('Component tests for the todo list', () => {
     let handleUpdateSpy;
