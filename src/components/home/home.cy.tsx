@@ -1,18 +1,16 @@
-import { createStoreon } from 'storeon';
-import { StoreContext } from 'storeon/react';
 import { Home } from './home';
-import { selectors } from '../../../cypress/support/selectors/home-page-selectors';
+import { homePageSelectors } from '../../../cypress/support/selectors/home-page-selectors';
+import { createObservable } from '../../common/observable';
 
 describe('Component tests for the Home component', () => {
+    const usernameObs = createObservable('');
+
     beforeEach(() => {
-        const store = createStoreon([(s) => s.on('@init', () => ({ auth: {} }))]);
-        cy.mount(<StoreContext.Provider value={store}>
-            <Home/>
-        </StoreContext.Provider>);
+        cy.mount(<Home usernameObs={usernameObs}/>);
     });
 
     it('all the element should be visible and have the correct text', () => {
-        cy.get(selectors.welcomeText).should('be.visible');
-        cy.get(selectors.welcomeText).should('include.text', 'Welcome');
+        cy.get(homePageSelectors.welcomeText).should('be.visible');
+        cy.get(homePageSelectors.welcomeText).should('include.text', 'Welcome');
     });
 });

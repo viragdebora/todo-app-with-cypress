@@ -1,6 +1,6 @@
 import { TodoListSideBar } from './todo-list-side-bar';
 import type { TodoList } from '../../../models/todo.model';
-import { selectors } from '../../../../cypress/support/selectors/todo-page-selectors';
+import { todoPageSelectors } from '../../../../cypress/support/selectors/todo-page-selectors';
 import domElements from '../../../../cypress/fixtures/dom-elements.json';
 
 describe('Component tests for the Todo List Sidebar', () => {
@@ -31,21 +31,21 @@ describe('Component tests for the Todo List Sidebar', () => {
     });
 
     it('all the element should be visible', () => {
-        cy.get(selectors.sideBar).should('be.visible');
-        cy.get(selectors.todoListItems).eq(0).should('be.visible');
-        cy.get(selectors.addListButton).should('be.visible');
-        cy.get(selectors.todoListItems).eq(0).should('not.have.class', domElements.selectedClass);
+        cy.get(todoPageSelectors.sideBar).should('be.visible');
+        cy.get(todoPageSelectors.todoListItems).eq(0).should('be.visible');
+        cy.get(todoPageSelectors.addListButton).should('be.visible');
+        cy.get(todoPageSelectors.todoListItems).eq(0).should('not.have.class', domElements.selectedClass);
     });
 
     it('the list items and add list button should not be disabled and should be clickable', () => {
-        cy.get(selectors.todoListItems).eq(0).should('be.not.disabled');
-        cy.get(selectors.addListButton).should('be.not.disabled');
-        cy.get(selectors.todoListItems).eq(0).click();
-        cy.get(selectors.addListButton).click();
+        cy.get(todoPageSelectors.todoListItems).eq(0).should('be.not.disabled');
+        cy.get(todoPageSelectors.addListButton).should('be.not.disabled');
+        cy.get(todoPageSelectors.todoListItems).eq(0).click();
+        cy.get(todoPageSelectors.addListButton).click();
     });
 
     it('should have called with the proper event in case of clicking on the list item', () => {
-        cy.get(selectors.todoListItems).eq(0).click();
+        cy.get(todoPageSelectors.todoListItems).eq(0).click();
         cy.get('@list-item-handler-spy').should('have.been.calledWith', items[0].id);
     });
 });
