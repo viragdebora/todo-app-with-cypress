@@ -15,15 +15,11 @@ import { AccountCircle } from '@mui/icons-material';
 import './header.scss';
 
 interface HeaderProps {
-    username: string;
-    isAuthenticated: boolean;
     login: () => void;
     logout: () => void;
 }
 
 export function Header({
-    username,
-    isAuthenticated,
     login,
     logout,
 }: HeaderProps): JSX.Element {
