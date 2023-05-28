@@ -5,6 +5,7 @@
     "type": "module",
     "scripts": {
         "dev": "node --es-module-specifier-resolution=node --loader ts-node/esm ./src/server/server.ts",
+        "start": "ts-node-esm --experimentalSpecifierResolution node ./src/server/server.ts",
         "build": "tsc && vite build",
         "lint": "eslint ./src ./cypress",
         "preview": "vite preview",
@@ -17,7 +18,8 @@
         "test:firefox": "cypress run --browser firefox --headed",
         "test:edge": "cypress run --browser edge --headed",
         "test:reporter": "cypress run --reporter mochawesome",
-        "prepare": "husky install"
+        "prepare": "husky install",
+        "wait-on": "wait-on http://localhost:5173"
     },
     "dependencies": {
         "@emotion/core": "11.0.0",
