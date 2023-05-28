@@ -1,0 +1,27 @@
+name: e2e-test
+on: push
+jobs:
+  run-dev-server:
+    name: Run dev server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.16.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.0
+      - run: npm install
+      - run: npm run dev & wait-on http://localhost:5173
+      
+  e2e_test_job:
+    needs: [run-dev-server]
+    name: E2E test job
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.16.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.0
+      - run: npm install
+      - run: npm run test:headless
