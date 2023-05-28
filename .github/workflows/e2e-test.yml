@@ -11,7 +11,7 @@ jobs:
         with:
           node-version: 18.16.0
       - run: npm install
-      - run: npm run dev & wait-on http://localhost:5173
+      - run: npm run dev & node_modules/.bin/wait-on http://localhost:5173
       
   e2e_test_job:
     needs: [run-dev-server]
