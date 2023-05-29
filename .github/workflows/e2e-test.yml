@@ -1,0 +1,17 @@
+name: e2e-test
+on: push
+env:
+  CYPRESS_user: ${{ vars.CYPRESS_USER }}
+  CYPRESS_password: ${{ vars.CYPRESS_PASSWORD }}
+jobs:
+  e2e_test_job:
+    name: Run e2e tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 18.16.0
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18.16.0
+      - run: npm install
+      - run: npm run start & npm run wait-on && npm run test:headless
