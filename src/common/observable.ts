@@ -1,19 +1,13 @@
-export type Handler<T> = (value: T) => void;
+import { createEventEmitter, type EventEmitter } from './event-emitter';
 
 export type Observable<T> = {
     value: T;
-    onChange(handler: Handler<T>): VoidFunction;
+    onChange: EventEmitter<T>;
 };
 
 export const createObservable = <T>(initialValue: T): Observable<T> => {
     let _value = initialValue;
-    const handlers: Array<Handler<T>> = [];
-
-    const notifyHandlers = (): void => {
-        for (const handler of handlers) {
-            handler(_value);
-        }
-    };
+    const onChange = createEventEmitter<T>();
 
     return {
         get value() {
@@ -21,11 +15,8 @@ export const createObservable = <T>(initialValue: T): Observable<T> => {
         },
         set value(newValue: T) {
             _value = newValue;
-            notifyHandlers();
+            onChange.emit(_value);
         },
-        onChange(handler: Handler<T>): VoidFunction {
-            handlers.push(handler);
-            return () => handlers.filter(h => h !== handler);
-        },
+        onChange,
     };
 };
