@@ -3,7 +3,7 @@ import domElements from '../../fixtures/dom-elements.json';
 import data from '../../fixtures/test-data.json';
 import pageUrls from '../../fixtures/page-urls.json';
 import { waitForPageLoad } from '../../support/helpers/page-load-helper';
-import { selectATodoListFromList } from '../../support/helpers/todo-helper';
+import { addNewTodoList, selectATodoListFromList } from '../../support/helpers/todo-helper';
 
 describe('Regression tests for the Todo-List', () => {
     beforeEach(() => {
@@ -22,7 +22,7 @@ describe('Regression tests for the Todo-List', () => {
 
     data.todoListTitles.forEach(title => {
         it(`should be able to add new todo list with title - ${title}`, () => {
-            cy.newTodoList(title);
+            addNewTodoList(title);
             cy.get(todoPageSelectors.todoListItems).should('have.length', '4');
             selectATodoListFromList(3);
             waitForPageLoad('todos');

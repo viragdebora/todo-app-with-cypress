@@ -2,7 +2,7 @@ import { headerSelectors } from '../../support/selectors/header';
 import pageUrls from '../../fixtures/page-urls.json';
 import { waitForPageLoad } from '../../support/helpers/page-load-helper';
 
-describe('Regression test for the Login page', () => {
+describe('Regression test for the Header component', () => {
     beforeEach(() => {
         cy.visit(pageUrls.homePage);
         cy.login();

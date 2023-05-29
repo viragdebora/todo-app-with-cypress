@@ -1,7 +1,7 @@
 import pageUrls from '../../fixtures/page-urls.json';
 import { waitForPageLoad } from '../../support/helpers/page-load-helper';
 
-describe('Regression test for the Login page', () => {
+describe('Regression test for the Not-found page', () => {
     afterEach(() => {
         cy.logout();
     });
