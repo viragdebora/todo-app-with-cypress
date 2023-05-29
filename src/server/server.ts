@@ -4,9 +4,9 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 import { createServer as createViteServer } from 'vite';
 import { getTodosRouter } from './routers/todos-router';
-import { TodoServiceMock } from '../store/todos/todo.service';
+import { TodoServiceMock } from '../services/todo/todo.service-mock';
 import { getAuthRouter } from './routers/auth.router';
-import { AuthServiceMock } from '../store/auth/auth.service';
+import { AuthServiceMock } from '../services/auth/auth.service-mock';
 import bodyParser from 'body-parser';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));

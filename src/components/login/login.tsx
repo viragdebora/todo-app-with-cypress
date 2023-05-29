@@ -11,9 +11,8 @@ import {
 } from '@mui/material';
 import { LockOutlined as LockOutlinedIcon } from '@mui/icons-material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useStoreon } from 'storeon/react';
-import type { AppState } from '../../app.state';
-import type { AppEvents } from '../../app.events';
+import { AuthContext } from '../../modules/auth/auth-context';
+import { useObservable } from '../../hooks/useObservable';
 
 function Copyright(props: any): JSX.Element {
     return (
@@ -45,7 +44,8 @@ export function Login({
         login(username?.toString() ?? '', password?.toString() ?? '');
     };
 
-    const { auth } = useStoreon<AppState, AppEvents>('auth');
+    const { authModel } = React.useContext(AuthContext);
+    const error = useObservable(authModel.error) as any;
 
     return (
         <ThemeProvider theme={theme}>
@@ -87,7 +87,7 @@ export function Login({
                             autoComplete="current-password"
                         />
                         {
-                            auth.error?.message === 'Incorrect credentials!' &&
+                            error?.message === 'Incorrect credentials!' &&
                             <Typography color="red"
                                 variant="body1"
                                 data-testid="incorrect-credentials">

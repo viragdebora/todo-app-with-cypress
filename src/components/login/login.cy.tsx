@@ -1,44 +1,39 @@
-import { createStoreon } from 'storeon';
-import { StoreContext } from 'storeon/react';
 import { Login } from './login';
-import { selectors } from '../../../cypress/support/po/login-page/selectors';
+import { loginSelectors } from '../../../cypress/support/selectors/login-page-selectors';
 
 describe('Component tests for the Login component', () => {
     let loginSpy;
 
     beforeEach(() => {
         loginSpy = cy.spy().as('login-spy');
-        const store = createStoreon([(s) => s.on('@init', () => ({ auth: {} }))]);
-        cy.mount(<StoreContext.Provider value={store}>
-            <Login login={loginSpy} />
-        </StoreContext.Provider>);
+        cy.mount(<Login login={loginSpy} />);
     });
 
     it('all the element should be visible and have the correct text', () => {
-        cy.get(selectors.userNameField).should('be.visible');
-        cy.get(selectors.passwordField).should('be.visible');
-        cy.get(selectors.submitButton).should('be.visible');
-        // cy.get(selectors.userNameLabel).should('have.text', 'Username *');
-        // cy.get(selectors.passwordLabel).should('have.text', 'Password *');
-        cy.get(selectors.submitButton).should('have.text', 'Sign In');
+        cy.get(loginSelectors.userNameField).should('be.visible');
+        cy.get(loginSelectors.passwordField).should('be.visible');
+        cy.get(loginSelectors.submitButton).should('be.visible');
+        // cy.get(loginSelectors.userNameLabel).should('have.text', 'Username *');
+        // cy.get(loginSelectors.passwordLabel).should('have.text', 'Password *');
+        cy.get(loginSelectors.submitButton).should('have.text', 'Sign In');
     });
 
     it('should be able to fill the input and password field', () => {
-        cy.get(selectors.userNameField).type('test');
-        cy.get(selectors.userNameField).should('have.value', 'test');
-        cy.get(selectors.passwordField).type('password');
-        cy.get(selectors.passwordField).should('have.value', 'password');
+        cy.get(loginSelectors.userNameField).type('test');
+        cy.get(loginSelectors.userNameField).should('have.value', 'test');
+        cy.get(loginSelectors.passwordField).type('password');
+        cy.get(loginSelectors.passwordField).should('have.value', 'password');
     });
 
     it('the submit button should not be disabled and should be clickable', () => {
-        cy.get(selectors.submitButton).should('be.not.disabled');
-        cy.get(selectors.submitButton).click();
+        cy.get(loginSelectors.submitButton).should('be.not.disabled');
+        cy.get(loginSelectors.submitButton).click();
     });
 
     it('should have called with the proper event in case loging in', () => {
-        cy.get(selectors.userNameField).type('test');
-        cy.get(selectors.passwordField).type('password');
-        cy.get(selectors.submitButton).click();
+        cy.get(loginSelectors.userNameField).type('test');
+        cy.get(loginSelectors.passwordField).type('password');
+        cy.get(loginSelectors.submitButton).click();
         cy.get('@login-spy').should('have.been.called');
     });
 });

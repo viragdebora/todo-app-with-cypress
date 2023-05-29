@@ -1,17 +1,18 @@
-import TodoPage from '../../support/po/todo-page/todo-page';
-import { selectors as todoSelectors } from '../../support/po/todo-page/selectors';
+import { todoPageSelectors } from '../../support/selectors/todo-page-selectors';
 import domElements from '../../fixtures/dom-elements.json';
 import data from '../../fixtures/test-data.json';
-import { beforeEach, afterEach } from 'mocha';
-const todoPage = new TodoPage();
+import pageUrls from '../../fixtures/page-urls.json';
+import { waitForPageLoad } from '../../support/helpers/page-load-helper';
+import { selectATodoListFromList } from '../../support/helpers/todo-helper';
 
 describe('Regression tests for the Todo-List', () => {
     beforeEach(() => {
-        cy.login(todoPage);
+        cy.visit(pageUrls.todoPage);
+        cy.login();
         cy.newTodoList(data.todoListTitleFirst);
         cy.newTodoList(data.todoListTitleSecond);
         cy.newTodoList(data.todoListTitleThird);
-        cy.get(todoSelectors.todoListItems).should('have.length', '3');
+        cy.get(todoPageSelectors.todoListItems).should('have.length', '3');
     });
 
     afterEach(() => {
@@ -22,34 +23,34 @@ describe('Regression tests for the Todo-List', () => {
     data.todoListTitles.forEach(title => {
         it(`should be able to add new todo list with title - ${title}`, () => {
             cy.newTodoList(title);
-            cy.get(todoSelectors.todoListItems).should('have.length', '4');
-            todoPage.selectATodoListFromList(4);
-            todoPage.getTodoListElementVisible();
-            cy.get(todoSelectors.todoListTitle).should('have.text', title);
-            cy.get(todoSelectors.todoListItems).eq(3).should('have.class', domElements.selectedClass);
+            cy.get(todoPageSelectors.todoListItems).should('have.length', '4');
+            selectATodoListFromList(3);
+            waitForPageLoad('todos');
+            cy.get(todoPageSelectors.todoListTitle).should('have.text', title);
+            cy.get(todoPageSelectors.todoListItems).eq(3).should('have.class', domElements.selectedClass);
         });
     });
 
     it('should delete the todo list', () => {
-        todoPage.selectATodoListFromList(1);
-        cy.get(todoSelectors.todoListHeaderMenuButton).click();
-        cy.get(todoSelectors.deleteTodoListButton).click();
-        cy.get(todoSelectors.noItemsVisible).should('be.visible');
-        cy.get(todoSelectors.todoListItems).should('have.length', '2');
-        cy.get(todoSelectors.todoListItems).eq(0).should('not.have.class', domElements.selectedClass);
-        cy.get(todoSelectors.todoListItems).eq(1).should('not.have.class', domElements.selectedClass);
+        selectATodoListFromList(0);
+        cy.get(todoPageSelectors.todoListHeaderMenuButton).click();
+        cy.get(todoPageSelectors.deleteTodoListButton).click();
+        cy.get(todoPageSelectors.noItemsVisible).should('be.visible');
+        cy.get(todoPageSelectors.todoListItems).should('have.length', '2');
+        cy.get(todoPageSelectors.todoListItems).eq(0).should('not.have.class', domElements.selectedClass);
+        cy.get(todoPageSelectors.todoListItems).eq(1).should('not.have.class', domElements.selectedClass);
     });
 
     it('should handle navigating between the todo lists', () => {
-        todoPage.selectATodoListFromList(3);
-        todoPage.getTodoListElementVisible();
-        todoPage.selectATodoListFromList(1);
-        cy.get(todoSelectors.todoListItems).should('have.length', '3');
-        cy.get(todoSelectors.todoListItems).eq(0).should('have.class', domElements.selectedClass);
+        selectATodoListFromList(2);
+        waitForPageLoad('todos');
+        selectATodoListFromList(0);
+        cy.get(todoPageSelectors.todoListItems).should('have.length', '3');
+        cy.get(todoPageSelectors.todoListItems).eq(0).should('have.class', domElements.selectedClass);
         cy.go('back');
-        todoPage.getTodoListElementVisible();
-        cy.get(todoSelectors.todoListItems).eq(2).should('have.text', data.todoListTitleThird);
-        cy.get(todoSelectors.todoListItems).eq(0).should('not.have.class', domElements.selectedClass);
-        cy.get(todoSelectors.todoListItems).eq(2).should('have.class', domElements.selectedClass);
+        waitForPageLoad('todos');
+        cy.get(todoPageSelectors.todoListItems).eq(2).should('have.text', data.todoListTitleThird);
+        cy.get(todoPageSelectors.todoListItems).eq(0).should('not.have.class', domElements.selectedClass);
+        cy.get(todoPageSelectors.todoListItems).eq(2).should('have.class', domElements.selectedClass);
     });
 });

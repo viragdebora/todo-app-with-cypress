@@ -1,10 +1,15 @@
-import { useStoreon } from 'storeon/react';
+import { type Observable } from '../../common/observable';
+import { useObservable } from '../../hooks/useObservable';
 import './home.scss';
 
-export function Home(): JSX.Element {
-    const { auth } = useStoreon('auth');
+interface HomeProps {
+    usernameObs: Observable<string>;
+}
+
+export function Home({ usernameObs }: HomeProps): JSX.Element {
+    const username = useObservable(usernameObs);
 
     return <div className="home" data-testid="welcome-text">
-        Welcome {auth.username || 'unknown'}
+        Welcome {username || 'unknown'}
     </div>;
 }
