@@ -1,54 +1,27 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
-import './index.css';
 import { createBrowserRouter, redirect, RouterProvider, Outlet } from 'react-router-dom';
 import { Home } from './components/home/home';
 import { NotFound } from './components/not-found/not-found';
 import { Login } from './components/login/login';
-import { storeonDevtools, storeonLogger } from 'storeon/devtools';
-import { StoreContext } from 'storeon/react';
-import { createStoreon } from 'storeon';
-import type { AppEvents } from './app.events';
-import type { AppState } from './app.state';
-import { getAuthReducer } from './store/auth/auth.reducer';
-import { GetUserInfoEndedEvent, GetUserInfoEvent, IsAuthenticatedEndedEvent, IsAuthenticatedEvent, LoginEndedEvent, LoginEvent, LogoutEndedEvent, LogoutEvent } from './store/auth/auth.events';
-import { getTodoReducer } from './store/todos/todo.reducer';
-import { AuthServiceClient } from './store/auth/auth.service-client';
-import { TodoServiceClient } from './store/todos/todo.service-client';
-import { TodoPageRoutingContext } from './modules/todo/todo-page-module';
+import { AuthServiceClient } from './services/auth/auth.service-client';
+import { TodoServiceClient } from './services/todo/todo.service-client';
+import { type TodoPageRoutingContext } from './modules/todo/todo-page-module';
 import { loadTodoPage } from './modules/todo/lazy-load-todo-page';
+import { initAuthModule } from './modules/auth/auth-module';
+import { AuthContext } from './modules/auth/auth-context';
+import './index.css';
 
 (async () => {
     const authService = new AuthServiceClient();
-    const todoService = new TodoServiceClient();
 
-    const store = createStoreon<AppState, AppEvents>([
-        storeonDevtools,
-        storeonLogger,
-        getAuthReducer(authService),
-        getTodoReducer(todoService),
-    ]);
+    const { authModel } = initAuthModule({ authService });
 
-    const promise = new Promise<void>(resolve => {
-        const unsubscribe = store.on(IsAuthenticatedEndedEvent, () => {
-            unsubscribe();
-            resolve();
-        });
-    });
-    store.dispatch(IsAuthenticatedEvent);
-    await promise;
+    await authModel.checkIsAuthenticated();
+    await authModel.getUserInfo();
 
-    const getUserInfoPromise = new Promise<void>(resolve => {
-        const unsubscribe = store.on(GetUserInfoEndedEvent, () => {
-            unsubscribe();
-            resolve();
-        });
-    });
-    store.dispatch(GetUserInfoEvent);
-    await getUserInfoPromise;
-
-    store.on(LoginEndedEvent, (_, { error }) => {
+    authModel.onLogin(({ error }) => {
         if (!error) {
             const searchParams = new URLSearchParams(router.state.location.search);
             const redirectTo = decodeURIComponent(searchParams.get('redirectTo') ?? '/');
@@ -56,7 +29,7 @@ import { loadTodoPage } from './modules/todo/lazy-load-todo-page';
         }
     });
 
-    store.on(LogoutEndedEvent, (_, { error }) => {
+    authModel.onLogout(({ error }) => {
         if (!error) {
             router.navigate('/login');
         }
@@ -68,10 +41,10 @@ import { loadTodoPage } from './modules/todo/lazy-load-todo-page';
 
     const router = createBrowserRouter([
         {
-            element: <App logout={() => store.dispatch(LogoutEvent)}><Outlet /></App>,
+            element: <App logout={async () => authModel.logout()}><Outlet /></App>,
             path: '/',
             loader: ({ request }) => {
-                if (!store.get().auth.isAuthenticated) {
+                if (!authModel.isAuthenticated.value) {
                     const url = new URL(request.url);
                     const redirectTo = encodeURIComponent(url.pathname || '/');
                     return redirect(`/login?redirectTo=${redirectTo}`);
@@ -81,7 +54,7 @@ import { loadTodoPage } from './modules/todo/lazy-load-todo-page';
             children: [
                 {
                     path: '',
-                    element: <Home />,
+                    element: <Home usernameObs={authModel.username} />,
                 },
                 {
                     path: 'todos',
@@ -96,7 +69,7 @@ import { loadTodoPage } from './modules/todo/lazy-load-todo-page';
                         return { Component: LazyComponent };
                     },
                     loader: async ({ request }) => {
-                        if (!store.get().auth.isAuthenticated) {
+                        if (!authModel.isAuthenticated.value) {
                             return {};
                         }
                         const { Component, todoListModel } = await loadTodoPage(todoPageContext);
@@ -127,10 +100,10 @@ import { loadTodoPage } from './modules/todo/lazy-load-todo-page';
         },
         {
             path: '/login',
-            element: <Login login={(username, password) => store.dispatch(LoginEvent, { username, password })} />,
+            element: <Login login={async (username, password) => authModel.login(username, password)} />,
             loader: ({ request }) => {
                 const redirectTo = new URL(request.url).searchParams.get('redirectTo') ?? '/';
-                if (store.get().auth.isAuthenticated) {
+                if (authModel.isAuthenticated.value) {
                     return redirect(decodeURIComponent(redirectTo));
                 }
                 return {};
@@ -140,9 +113,9 @@ import { loadTodoPage } from './modules/todo/lazy-load-todo-page';
 
     ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
         <React.StrictMode>
-            <StoreContext.Provider value={store}>
+            <AuthContext.Provider value={{ authModel }}>
                 <RouterProvider router={router} />
-            </StoreContext.Provider>
+            </AuthContext.Provider>
         </React.StrictMode>,
     );
 })();

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import type { AuthServiceMock } from '../../store/auth/auth.service';
+import type { AuthServiceMock } from '../../services/auth/auth.service-mock';
 
 export function getAuthRouter(authService: AuthServiceMock): Router {
     const authRouter = Router();

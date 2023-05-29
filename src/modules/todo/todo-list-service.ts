@@ -1,4 +1,4 @@
-import { TodoItem, TodoList } from '../../models/todo.model';
+import type { TodoItem, TodoList } from '../../models/todo.model';
 
 export interface TodoListService {
     loadTodos(): Promise<TodoList[]>;

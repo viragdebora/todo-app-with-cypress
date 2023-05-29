@@ -1,7 +1,7 @@
 import { createContext, useContext } from 'react';
 import { createObservable } from '../../common/observable';
-import { TodoList } from '../../models/todo.model';
-import { TodoListModel } from './todo-list-model';
+import { type TodoList } from '../../models/todo.model';
+import { type TodoListModel } from './todo-list-model';
 
 export interface TodoPageContextType {
     todoListModel: TodoListModel;
@@ -30,7 +30,7 @@ export const TodoPageContext = createContext<TodoPageContextType>({
         addTodoItem() {
             throw new Error();
         },
-    } as unknown as TodoListModel
+    } as unknown as TodoListModel,
 });
 
 export const useTodoPageContext = (): TodoPageContextType => useContext(TodoPageContext);

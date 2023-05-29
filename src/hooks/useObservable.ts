@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Observable } from "../common/observable";
+import { type Observable } from '../common/observable';
 
 export const useObservable = <T>(observable: Observable<T>): T => {
     const [state, setState] = useState<T>(observable.value);

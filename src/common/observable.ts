@@ -5,19 +5,18 @@ export type Observable<T> = {
     onChange(handler: Handler<T>): VoidFunction;
 };
 
-
 export const createObservable = <T>(initialValue: T): Observable<T> => {
     let _value = initialValue;
-    const handlers: Handler<T>[] = [];
+    const handlers: Array<Handler<T>> = [];
 
-    const notifyHandlers = () => {
+    const notifyHandlers = (): void => {
         for (const handler of handlers) {
             handler(_value);
         }
     };
 
     return {
-        get value () {
+        get value() {
             return _value;
         },
         set value(newValue: T) {

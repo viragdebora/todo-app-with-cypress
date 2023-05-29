@@ -1,4 +1,6 @@
-export class AuthServiceClient {
+import type { AuthService } from '../../modules/auth/auth.service';
+
+export class AuthServiceClient implements AuthService {
     async login(username: string, password: string): Promise<string> {
         const response = await fetch('/api/auth/login', {
             method: 'POST',
