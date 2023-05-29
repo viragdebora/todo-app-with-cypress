@@ -1,5 +1,8 @@
 name: e2e-test
 on: push
+env:
+  CYPRESS_user: ${{ vars.CYPRESS_USER }}
+  CYPRESS_password: ${{ vars.CYPRESS_PASSWORD }}
 jobs:
   e2e_test_job:
     name: Run e2e tests
