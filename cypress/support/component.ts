@@ -11,6 +11,7 @@ declare global {
         interface Cypress {
             env(key: 'user'): string;
             env(key: 'password'): string;
+            env(key: 'non-app-action'): string;
         }
     }
 }
