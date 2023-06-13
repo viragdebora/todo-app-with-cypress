@@ -1,0 +1,10 @@
+[
+    {
+        "description": "empty todo title parameter",
+        "parameter": ""
+    },
+    {
+        "description": "null for todo title parameter",
+        "parameter": null
+    }
+]
