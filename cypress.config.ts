@@ -40,6 +40,7 @@ export default defineConfig({
             });
         },
         baseUrl: 'http://localhost:5173',
+        specPattern: '**/*.cy.ts',
         excludeSpecPattern: './cypress/e2e/exclude/*',
         video: false,
     },
