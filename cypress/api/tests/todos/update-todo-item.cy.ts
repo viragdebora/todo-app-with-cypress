@@ -9,7 +9,7 @@ import todoListNegativeCases from '../../../fixtures/todo-negative-cases.json';
 describe('API tests for the POST / todos/updateTodoItem', () => {
     let todoLists: TodoList[];
 
-    describe('Authenticated positive cases', () => {
+    describe('Authenticated cases', () => {
         after(() => {
             removeAllTodoList();
             logout();
@@ -29,68 +29,66 @@ describe('API tests for the POST / todos/updateTodoItem', () => {
             });
         });
 
-        it('should return a non-empty array', () => {
-            todoLists.forEach(list => {
-                expect(list.items).to.be.an('array');
-                expect((list.items).length).to.be.greaterThan(0);
-            });
-        });
-
-        it('should match the schema', () => {
-            todoLists.forEach(list => {
-                expect(list).to.be.jsonSchema(todoListSchema);
-            });
-        });
-
-        it('should change from \'NOT_STARTED\' to \'COMPLETED\'', () => {
-            expect(todoLists[0].items[0].state).not.to.equal('NOT_STARTED');
-            expect(todoLists[0].items[0].state).to.equal('COMPLETED');
-        });
-
-        it('should change the title', () => {
-            const previousTitle = todoListTestData[0].listItems[todoListTestData[0].listItems.length - 1];
-            expect(todoLists[0].items[0].title).not.to.equal(previousTitle);
-            expect(todoLists[0].items[0].title).to.equal('Updated Todo Item');
-        });
-    });
-
-    // TODO: Activate after the #X defect has resolved.
-    xdescribe('Authenticated negative cases', () => {
-        before(() => {
-            login();
-        });
-
-        todoListNegativeCases.forEach(list => {
-            it(`should return with the proper status code and status message to ${list.description} to state with proper list id`, () => {
-                updateTodoItem(todoLists[0].id, {
-                    id: todoLists[0].items[0].id,
-                    state: list.parameter as TodoStatus,
-                    title: 'Todo Item 1',
-                }).then(response => {
-                    expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
-                    expect(response.statusText).to.equal(ReasonPhrases.BAD_REQUEST);
+        describe('Positive cases', () => {
+            it('should return a non-empty array', () => {
+                todoLists.forEach(list => {
+                    expect(list.items).to.be.an('array');
+                    expect((list.items).length).to.be.greaterThan(0);
                 });
             });
 
-            it(`should return with the proper status code and status message without proper list id to ${list.description}`, () => {
-                updateTodoItem(list.parameter as string, {
-                    id: todoLists[0].items[0].id,
-                    state: 'COMPLETED',
-                    title: 'Updated Todo Item 2',
-                }).then(response => {
-                    expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
-                    expect(response.statusText).to.equal(ReasonPhrases.BAD_REQUEST);
+            it('should match the schema', () => {
+                todoLists.forEach(list => {
+                    expect(list).to.be.jsonSchema(todoListSchema);
                 });
             });
 
-            it(`should return with the proper status code and status message without proper list id and list item id to ${list.description}`, () => {
-                updateTodoItem(list.parameter as string, {
-                    id: list.parameter as string,
-                    state: 'COMPLETED',
-                    title: 'Updated Todo Item 2',
-                }).then(response => {
-                    expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
-                    expect(response.statusText).to.equal(ReasonPhrases.BAD_REQUEST);
+            it('should change from \'NOT_STARTED\' to \'COMPLETED\'', () => {
+                expect(todoLists[0].items[0].state).not.to.equal('NOT_STARTED');
+                expect(todoLists[0].items[0].state).to.equal('COMPLETED');
+            });
+
+            it('should change the title', () => {
+                const previousTitle = todoListTestData[0].listItems[todoListTestData[0].listItems.length - 1];
+                expect(todoLists[0].items[0].title).not.to.equal(previousTitle);
+                expect(todoLists[0].items[0].title).to.equal('Updated Todo Item');
+            });
+        });
+
+        // TODO: Activate after the #21 defect has resolved.
+        xdescribe('Negative cases', () => {
+            todoListNegativeCases.forEach(list => {
+                it(`should return with the proper status code and status message to ${list.description} to state with proper list id`, () => {
+                    updateTodoItem(todoLists[0].id, {
+                        id: todoLists[0].items[0].id,
+                        state: list.parameter as TodoStatus,
+                        title: 'Todo Item 1',
+                    }).then(response => {
+                        expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+                        expect(response.statusText).to.equal(ReasonPhrases.BAD_REQUEST);
+                    });
+                });
+
+                it(`should return with the proper status code and status message without proper list id to ${list.description}`, () => {
+                    updateTodoItem(list.parameter as string, {
+                        id: todoLists[0].items[0].id,
+                        state: 'COMPLETED',
+                        title: 'Updated Todo Item 2',
+                    }).then(response => {
+                        expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+                        expect(response.statusText).to.equal(ReasonPhrases.BAD_REQUEST);
+                    });
+                });
+
+                it(`should return with the proper status code and status message without proper list id and list item id to ${list.description}`, () => {
+                    updateTodoItem(list.parameter as string, {
+                        id: list.parameter as string,
+                        state: 'COMPLETED',
+                        title: 'Updated Todo Item 2',
+                    }).then(response => {
+                        expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+                        expect(response.statusText).to.equal(ReasonPhrases.BAD_REQUEST);
+                    });
                 });
             });
         });

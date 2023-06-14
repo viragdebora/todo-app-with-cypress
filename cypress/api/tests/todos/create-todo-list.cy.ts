@@ -7,7 +7,7 @@ import todoListTestData from '../../../fixtures/todo-positive-cases.json';
 import todoListNegativeCases from '../../../fixtures/todo-negative-cases.json';
 
 describe('API tests for the POST / todos/', () => {
-    describe('Authenticated positive cases', () => {
+    describe('Authenticated cases', () => {
         let todoList: TodoList;
 
         after(() => {
@@ -24,26 +24,24 @@ describe('API tests for the POST / todos/', () => {
             });
         });
 
-        it('should return an object', () => {
-            expect(todoList).to.be.an('object');
+        describe('Positive cases', () => {
+            it('should return an object', () => {
+                expect(todoList).to.be.an('object');
+            });
+
+            it('should match the schema', () => {
+                expect(todoList).to.be.jsonSchema(todoListSchema);
+            });
         });
 
-        it('should match the schema', () => {
-            expect(todoList).to.be.jsonSchema(todoListSchema);
-        });
-    });
-
-    // TODO: Activate after the #X defect has resolved.
-    xdescribe('Authenticated negative cases', () => {
-        before(() => {
-            login();
-        });
-
-        todoListNegativeCases.forEach(list => {
-            it(`should return with the proper status code and status message to ${list.description}`, () => {
-                createTodoList(list.parameter as string).then(response => {
-                    expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
-                    expect(response.statusText).to.equal(ReasonPhrases.BAD_REQUEST);
+        // TODO: Activate after the #21 defect has resolved.
+        xdescribe('Negative cases', () => {
+            todoListNegativeCases.forEach(list => {
+                it(`should return with the proper status code and status message to ${list.description}`, () => {
+                    createTodoList(list.parameter as string).then(response => {
+                        expect(response.status).to.equal(StatusCodes.BAD_REQUEST);
+                        expect(response.statusText).to.equal(ReasonPhrases.BAD_REQUEST);
+                    });
                 });
             });
         });
