@@ -70,7 +70,7 @@ export function removeAllTodoListNonAppAction(): void {
                 return responseObject.id;
             });
             for (let i = 0; i < idArray.length; i++) {
-                cy.request('DELETE', '/api/todos/removeItem', { listId: idArray[i] });
+                cy.request('DELETE', '/api/todos/', { listId: idArray[i] });
             }
         }
     });
