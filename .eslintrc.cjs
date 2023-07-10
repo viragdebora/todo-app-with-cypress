@@ -1,4 +1,5 @@
 const OFF = 0;
+const WARN = 1;
 const ERROR = 2;
 
 module.exports = {
@@ -16,9 +17,16 @@ module.exports = {
         project: ["./tsconfig.json"],
     },
     plugins: [
+        'cypress',
         'react',
     ],
     rules: {
+        "cypress/no-unnecessary-waiting": ERROR,
+        "cypress/no-unnecessary-waiting": ERROR,
+        "cypress/assertion-before-screenshot": WARN,
+        "cypress/no-force": WARN,
+        "cypress/no-async-tests": ERROR,
+        "cypress/no-pause": ERROR,
         "@typescript-eslint/indent": [ERROR, 4],
         "@typescript-eslint/semi": [ERROR, "always"],
         "@typescript-eslint/member-delimiter-style": [
