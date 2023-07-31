@@ -1,6 +1,6 @@
-import { type TodoList } from '../../../src/models/todo.model';
+import { removeAllTodoList } from '../../api/helper/todo-helpers';
 import { registerCommand } from '../commands/command-register';
-import { todoDialogBoxSelectors } from '../selectors/todo-dialog-box';
+import { addNewTodoList, addNewTodoToList } from '../helpers/todo-helper';
 import { todoPageSelectors } from '../selectors/todo-page-selectors';
 
 export function newTodoListAppAction(todoListTitle: string): void {
@@ -41,39 +41,15 @@ export function removeAllTodoListAppAction(): void {
 }
 
 export function newTodoListNonAppAction(todoListTitle: string): void {
-    cy.get(todoPageSelectors.addListButton).should('be.visible');
-    cy.get(todoPageSelectors.addListButton).click();
-    cy.get(todoDialogBoxSelectors.todoDialogBoxInputField).type(todoListTitle);
-    cy.get(todoDialogBoxSelectors.todoDialogBoxCreateButton).click();
-    cy.get(todoPageSelectors.todoListItems).should('be.visible');
+    addNewTodoList(todoListTitle);
 }
 
 export function addTodoToTodoListNonAppAction(todoListIndex: number, todoItem: string): void {
-    cy.get(todoPageSelectors.todoListItems).should('be.visible');
-    let text: string;
-    cy.get(todoPageSelectors.todoListItems).eq(todoListIndex).then(($todoListItem) => {
-        text = $todoListItem.text();
-    });
-    cy.get(todoPageSelectors.todoListItems).eq(todoListIndex).click();
-    cy.get(todoPageSelectors.todoListTitle).should('be.visible');
-    cy.get(todoPageSelectors.todoListTitle).should(($todoListTitle) => {
-        expect($todoListTitle.text()).to.eql(text);
-    });
-    cy.get(todoPageSelectors.inputTodoField).type(todoItem);
-    cy.get(todoPageSelectors.addButton).click();
+    addNewTodoToList(todoListIndex, todoItem);
 }
 
 export function removeAllTodoListNonAppAction(): void {
-    cy.request('GET', '/api/todos/').then(response => {
-        if (response.body) {
-            const idArray: string[] = (response.body).map((responseObject: TodoList) => {
-                return responseObject.id;
-            });
-            for (let i = 0; i < idArray.length; i++) {
-                cy.request('DELETE', '/api/todos/', { listId: idArray[i] });
-            }
-        }
-    });
+    removeAllTodoList();
 }
 
 registerCommand('newTodoList', newTodoListAppAction, newTodoListNonAppAction);

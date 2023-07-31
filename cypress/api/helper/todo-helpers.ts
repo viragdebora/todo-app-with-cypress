@@ -5,33 +5,23 @@ export function getAllTodos(): Cypress.Chainable<Cypress.Response<TodoList[]>> {
 }
 
 export function createTodoList(title: string): Cypress.Chainable<Cypress.Response<TodoList>> {
-    return cy.request('POST', 'api/todos/', { title }).then(response => {
-        return response;
-    });
+    return cy.request('POST', 'api/todos/', { title });
 }
 
 export function addTodoListItem(listId: string, title: string): Cypress.Chainable<Cypress.Response<TodoItem>> {
-    return cy.request('POST', 'api/todos/addItem', { listId, title }).then(response => {
-        return response;
-    });
+    return cy.request('POST', 'api/todos/addItem', { listId, title });
 }
 
 export function updateTodoItem(listId: string, item: TodoItem): Cypress.Chainable<Cypress.Response<TodoItem>> {
-    return cy.request('PUT', 'api/todos/updateItem', { listId, item }).then(response => {
-        return response;
-    });
+    return cy.request('PUT', 'api/todos/updateItem', { listId, item });
 }
 
 export function removeTodoItem(listId: string, id: string): Cypress.Chainable<Cypress.Response<string>> {
-    return cy.request('DELETE', 'api/todos/removeItem', { listId, id }).then(response => {
-        return response;
-    });
+    return cy.request('DELETE', 'api/todos/removeItem', { listId, id });
 }
 
 export function removeTodoList(listId: string): Cypress.Chainable<Cypress.Response<string>> {
-    return cy.request('DELETE', 'api/todos/', { listId }).then(response => {
-        return response;
-    });
+    return cy.request('DELETE', 'api/todos/', { listId });
 }
 
 function create(todoList: TodoList, items: string[]): any {

@@ -13,13 +13,9 @@ export function logout(): Cypress.Chainable<Cypress.Response<void>> {
 }
 
 export function isAuthenticated(): Cypress.Chainable<Cypress.Response<boolean>> {
-    return cy.request('GET', 'api/auth/isAuthenticated').then(response => {
-        return response;
-    });
+    return cy.request('GET', 'api/auth/isAuthenticated');
 }
 
 export function getUserInfo(): Cypress.Chainable<Cypress.Response<string>> {
-    return cy.request('GET', 'api/auth/userInfo').then(response => {
-        return response;
-    });
+    return cy.request('GET', 'api/auth/userInfo');
 }
