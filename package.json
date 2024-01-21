@@ -17,7 +17,6 @@
         "test:ui:headless:nonappaction": "cypress run --env non-app-action=true --spec ./cypress/e2e/**",
         "test:ui:health": "cypress run --spec './cypress/e2e/health/**'",
         "test:ui:regression": "cypress run --spec './cypress/e2e/regression/**'",
-        "test:ui:retry": "cypress run --spec './cypress/e2e/exclude/retry.cy.ts'",
         "test:ui:firefox": "cypress run --browser firefox --headed",
         "test:ui:edge": "cypress run --browser edge --headed",
         "test:ui:reporter": "cypress run --reporter mochawesome",
