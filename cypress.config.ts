@@ -7,6 +7,7 @@ import { rm } from 'fs/promises';
 import { join } from 'path';
 
 export default defineConfig({
+    retries: 2,
     reporter: 'mochawesome',
     reporterOptions: {
         reportDir: 'cypress/results',
@@ -41,7 +42,6 @@ export default defineConfig({
         },
         baseUrl: 'http://localhost:5173',
         specPattern: '**/*.cy.ts',
-        excludeSpecPattern: './cypress/e2e/exclude/*',
         video: false,
     },
     component: {
